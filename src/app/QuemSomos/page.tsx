@@ -5,7 +5,6 @@ import React from "react";
 const QuemSomos: React.FC = () => {
   return (
     <div className="bg-green-100 p-8">
-      {/* Seção Sobre Nós */}
       <section className="bg-green-200 p-8 my-4 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold text-green-900 mb-4">Sobre nós</h2>
         <p className="text-gray-700 leading-relaxed bg-white p-4 rounded-lg">
@@ -15,7 +14,6 @@ const QuemSomos: React.FC = () => {
         </p>
       </section>
 
-      {/* Seção Nossa Missão */}
       <section className="bg-green-300 p-8 my-4 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold text-green-900 mb-4">Nossa missão</h2>
         <p className="text-gray-700 leading-relaxed bg-white p-4 rounded-lg">
@@ -25,7 +23,6 @@ const QuemSomos: React.FC = () => {
         </p>
       </section>
 
-      {/* Seção Por que Calcular sua Pegada de Carbono? */}
       <section className="bg-green-400 p-8 my-4 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold text-green-900 mb-4">
           Por que Calcular sua Pegada de Carbono?
