@@ -7,12 +7,10 @@ import ChartComponent from "@/components/Charts/PieChart";
 const Home: React.FC = () => {
   return (
     <div className="bg-green-100 p-8">
-      {/* Título da Página */}
       <h1 className="text-4xl font-bold text-green-900 text-center mb-8">
         Emissão de CO₂ e Previsões Futuras
       </h1>
 
-      {/* Seção O que fazemos? */}
       <section className="bg-green-250 p-8 my-4 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold text-green-900 mb-4">
           O que fazemos?
@@ -35,7 +33,6 @@ const Home: React.FC = () => {
         </p>
       </section>
 
-      {/* Seção dos Gráficos */}
       <section className="bg-green-200 p-8 my-4 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold text-green-900 mb-4">
           Gráficos de Emissão de CO₂
@@ -46,7 +43,6 @@ const Home: React.FC = () => {
             <ChartComponent
               series={[27, 73]}
               labels={["Emissão Atual", "Redução"]}
-              title="Gráfico CO₂ Brasil"
               colors={["#034732", "#81c784"]}
             />
           </div>
@@ -57,7 +53,6 @@ const Home: React.FC = () => {
             <ChartComponent
               series={[54, 46]}
               labels={["Manutenção", "Redução Prevista"]}
-              title="Previsão para os próximos 50 anos"
               colors={["#034732", "#81c784"]}
             />
           </div>
@@ -81,7 +76,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Seção Como Funciona com Botão */}
       <section className="bg-green-300 p-8 my-4 rounded-lg shadow-md flex flex-col lg:flex-row justify-between items-center">
         <div className="lg:w-2/3">
           <h2 className="text-3xl font-bold text-green-900 mb-4">

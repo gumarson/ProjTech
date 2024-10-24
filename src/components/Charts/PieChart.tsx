@@ -6,7 +6,7 @@ import Chart from 'react-apexcharts';
 interface ChartComponentProps {
   series: number[];
   labels: string[];
-  title: string;
+  title?: string;
   colors?: string[];
   type?: 'pie' | 'bar';
 }
