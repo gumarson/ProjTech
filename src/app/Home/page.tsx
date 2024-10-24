@@ -55,7 +55,7 @@ const Home: React.FC = () => {
               labels={["Manutenção", "Redução Prevista"]}
               colors={["#034732", "#81c784"]}
             />
-          </div>alefbaelifb
+          </div>
           <div className="bg-white p-4 rounded-lg shadow-md lg:w-1/3 mt-4 lg:mt-0">
             <h3 className="text-green-900 font-bold mb-2">
               Análise das Emissões de CO₂: Passado e Futuro
