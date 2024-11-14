@@ -1,17 +1,15 @@
-
 "use client";
 
-import React, { useState } from 'react';
-import TechInput from '../TechInput/page';
-import Modal from '../Modal/modal';
-
+import React, { useState } from "react";
+import TechInput from "../TechInput/page";
+import Modal from "../Modal/modal";
 
 const Footer: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -19,7 +17,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-green-200 p-4 text-center">
       <p className="text-green-900">
-        Quer fazer parte da nossa equipe?{' '}
+        Quer fazer parte da nossa equipe?{" "}
         <span
           className="text-green-800 font-bold cursor-pointer hover:underline"
           onClick={handleOpenModal}
@@ -28,7 +26,11 @@ const Footer: React.FC = () => {
         </span>
       </p>
 
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        title="Trabalhe Conosco" // Ajuste aqui o título conforme necessário
+      >
         <TechInput
           label="Nome"
           type="text"
@@ -51,7 +53,9 @@ const Footer: React.FC = () => {
           placeholder="(XX) XXXXX-XXXX"
         />
         <div className="mb-4">
-          <label className="block text-green-900 font-bold mb-2">Mensagem</label>
+          <label className="block text-green-900 font-bold mb-2">
+            Mensagem
+          </label>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -72,7 +76,13 @@ const Footer: React.FC = () => {
         &copy; 2024 ProjTech. Todos os direitos reservados.
       </p>
       <p className="text-green-800">
-        Entre em contato: <a href="mailto:contato@projtech.com" className="underline hover:text-green-900">contato@projtech.com</a>
+        Entre em contato:{" "}
+        <a
+          href="mailto:contato@projtech.com"
+          className="underline hover:text-green-900"
+        >
+          contato@projtech.com
+        </a>
       </p>
     </footer>
   );

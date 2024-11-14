@@ -5,14 +5,19 @@ import { useRouter } from 'next/navigation';
 
 interface ButtonProps {
   label: string;
-  route: string;
+  route?: string; // Tornando o `route` opcional
+  onClick?: () => void; // Adicionando a prop `onClick`
 }
 
-const Button: React.FC<ButtonProps> = ({ label, route }) => {
+const Button: React.FC<ButtonProps> = ({ label, route, onClick }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(route);
+    if (onClick) {
+      onClick(); // Executa a função onClick se for passada
+    } else if (route) {
+      router.push(route); // Redireciona se `route` for fornecida
+    }
   };
 
   return (
