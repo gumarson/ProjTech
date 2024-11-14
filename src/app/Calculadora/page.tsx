@@ -1,11 +1,15 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Button from '@/components/Buttons/button';
-import ChartComponent from '@/components/Charts/PieChart';
 import TechAba from '@/components/Tabs/TechTab';
 import Modal from '@/components/Modal/modal';
 import TechInput from '@/components/TechInput/page';
+
+const ChartComponent = dynamic(() => import('@/components/Charts/PieChart'), {
+  ssr: false, // This ensures the ChartComponent is only loaded on the client
+});
 
 const CalculadoraPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('emissaoVeiculos');

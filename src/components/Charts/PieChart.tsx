@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 
 interface ChartComponentProps {
@@ -18,6 +18,14 @@ const ChartComponent: React.FC<ChartComponentProps> = ({
   colors = ['#004d40', '#1b5e20', '#2e7d32', '#4caf50'],
   type = 'pie',
 }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
+
   const options = {
     chart: {
       type,
