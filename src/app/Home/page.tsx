@@ -2,7 +2,11 @@
 
 import React from "react";
 import Button from "../../components/Buttons/button";
-import ChartComponent from "@/components/Charts/PieChart";
+import dynamic from "next/dynamic";
+
+const ChartComponent = dynamic(() => import("@/components/Charts/PieChart"), {
+  ssr: false,
+});
 
 const Home: React.FC = () => {
   return (
