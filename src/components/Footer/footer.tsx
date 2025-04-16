@@ -15,11 +15,11 @@ const Footer: React.FC = () => {
   const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <footer className="bg-green-200 p-4 text-center">
-      <p className="text-green-900">
+    <footer className="bg-blue-200 p-4 text-center">
+      <p className="text-blue-900">
         Quer fazer parte da nossa equipe?{" "}
         <span
-          className="text-green-800 font-bold cursor-pointer hover:underline"
+          className="text-blue-800 font-bold cursor-pointer hover:underline"
           onClick={handleOpenModal}
         >
           Trabalhe Conosco
@@ -53,33 +53,33 @@ const Footer: React.FC = () => {
           placeholder="(XX) XXXXX-XXXX"
         />
         <div className="mb-4">
-          <label className="block text-green-900 font-bold mb-2">
+          <label className="block text-blue-900 font-bold mb-2">
             Mensagem
           </label>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Escreva sua mensagem aqui..."
-            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             rows={4}
           />
         </div>
         <button
           onClick={handleCloseModal}
-          className="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded w-full"
+          className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded w-full"
         >
           Enviar
         </button>
       </Modal>
 
-      <p className="text-green-800 mt-4">
+      <p className="text-blue-800 mt-4">
         &copy; 2024 ProjTech. Todos os direitos reservados.
       </p>
-      <p className="text-green-800">
+      <p className="text-blue-800">
         Entre em contato:{" "}
         <a
           href="mailto:contato@projtech.com"
-          className="underline hover:text-green-900"
+          className="underline hover:text-blue-900"
         >
           contato@projtech.com
         </a>

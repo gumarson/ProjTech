@@ -4,5 +4,5 @@
 
 /* Ajustando o fundo do body */
 body {
-  @apply bg-green-900 text-gray-100; /* Usando as classes do Tailwind */
+  @apply bg-blue-900 text-gray-100; /* Usando as classes do Tailwind */
 }

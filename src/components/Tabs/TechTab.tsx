@@ -14,8 +14,8 @@ const TechAba: React.FC<TechAbaProps> = ({ label, isActive, onClick }) => {
       onClick={onClick}
       className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
         isActive
-          ? 'bg-green-600 text-white'
-          : 'bg-green-300 text-green-900 hover:bg-green-400'
+          ? 'bg-blue-600 text-white'
+          : 'bg-blue-300 text-blue-900 hover:bg-blue-400'
       }`}
     >
       {label}

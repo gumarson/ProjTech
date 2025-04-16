@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({ label, route, onClick }) => {
   return (
     <button
       onClick={handleClick}
-      className="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-full shadow-md"
+      className="bg-sky-700 hover:bg-sky-800 text-white font-bold py-3 px-6 rounded-full shadow-md"
     >
       {label}
     </button>

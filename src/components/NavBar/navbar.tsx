@@ -8,7 +8,7 @@ const Header: React.FC = () => {
   const router = useRouter();
 
   return (
-    <header className="bg-green-900 text-white p-4">
+    <header className="bg-blue-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-xl font-bold">ProjTech</h1>
         <div className="flex space-x-4">
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
           isActive={true} 
           onClick={() => router.push('/Home')} />
           <TechAba 
-          label="Calculadora" 
+          label="Simule Aqui" 
           isActive={false} 
           onClick={() => router.push('/Calculadora')} />
           <TechAba 

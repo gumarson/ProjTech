@@ -17,13 +17,13 @@ const TechInput: React.FC<TechInputProps> = ({
 }) => {
   return (
     <div className="mb-4">
-      <label className="block text-green-900 font-bold mb-2">{label}</label>
+      <label className="block text-sky-900 font-bold mb-2">{label}</label>
       <input
         type={type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-400"
       />
     </div>
   );
