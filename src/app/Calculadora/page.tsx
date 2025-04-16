@@ -33,15 +33,15 @@ const CalculadoraPage: React.FC = () => {
       </h1>
       <div className="flex justify-center space-x-4 mb-8">
         <TechAba
-          label="Cidades com potencial de geração solar"
+          label="Calculo potencial de geração solar"
           isActive={activeTab === "CidadesPotencial"}
           onClick={() => handleTabChange("CidadesPotencial")}
         />
-        <TechAba
+        {/* <TechAba
           label="Paises que adotaram o modelo de geração solar"
           isActive={activeTab === "PaisesModelo"}
           onClick={() => handleTabChange("PaisesModelo")}
-        />
+        /> */}
       </div>
 
       {activeTab === "CidadesPotencial" && (
@@ -91,11 +91,11 @@ const CalculadoraPage: React.FC = () => {
           <div className="flex flex-col md:flex-row bg-gray-50 p-6 rounded-lg shadow">
             <div className="md:w-1/2">
               <h3 className="text-2xl font-bold text-sky-900 mb-4">
-                Top 10 Estados do Brasil com Maior Potencial de Geração Solar
+                Top 10 Estados do Brasil com Maior Potencial de Geração Solar em 2025
               </h3>
               <ul className="list-disc pl-6 space-y-2 text-gray-700">
                 <li>1º) Minas Gerais: 1.730 MW</li>
-                <li>2º) São Paulo: 1.323 M </li>
+                <li>2º) São Paulo: 1.323 MW</li>
                 <li>3º) Rio Grande do Sul: 1.170 MW</li>
                 <li>4º) Mato Grosso: 690 MW</li>
                 <li>5º) Paraná: 514 MW</li>
@@ -125,7 +125,7 @@ const CalculadoraPage: React.FC = () => {
         </div>
       )}
 
-      {activeTab === "PaisesModelo" && (
+      {/* {activeTab === "PaisesModelo" && (
         <div>
           <div className="flex flex-col md:flex-row md:space-x-8 items-start bg-white p-6 rounded-lg shadow mb-8">
             <div className="md:w-1/2">
@@ -234,7 +234,7 @@ const CalculadoraPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       <div className="mt-8 text-center">
         <Button label="Calcular Emissão" route="#" onClick={toggleModal} />

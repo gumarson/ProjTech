@@ -43,24 +43,34 @@ const Home: React.FC = () => {
         <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="flex flex-col items-center lg:w-1/3">
             <h3 className="text-sky-900 font-bold mb-2">
-              Impacto da Energia Solar
+              Impacto da Energia Solar (2024-2025)
             </h3>
             <ChartComponent
-              series={[40, 60]}
+              series={[30, 70]}
               labels={["Uso de Fontes Poluentes", "Energia Limpa"]}
               colors={["#ff7f50", "#22d3ee"]}
             />
           </div>
           <div className="flex flex-col items-center lg:w-1/3">
             <h3 className="text-sky-900 font-bold mb-2">
-              Projeção de Economia Residencial
+              Projeção de Economia Residencial (2024-2025)
             </h3>
             <ChartComponent
-              series={[30, 70]}
-              labels={["Custo Atual", "Economia com Solar"]}
+              series={[10, 90]}
+              labels={["Custo Atualmente Pago", "Economia com Solar"]}
               colors={["#ff7f50", "#22d3ee"]}
             />
           </div>
+          {/* <div className="flex flex-col items-center lg:w-1/3">
+            <h3 className="text-sky-900 font-bold mb-2">
+              Projeção de Economia Residencial
+            </h3>
+            <ChartComponent
+              series={[40, 60]}
+              labels={["Custo Atual", "Economia com Solar"]}
+              colors={["#ff7f50", "#22d3ee"]}
+            />
+          </div> */}
           <div className="bg-white p-4 rounded-lg shadow-md lg:w-1/3 mt-4 lg:mt-0">
             <h3 className="text-sky-900 font-bold mb-2">
               Benefícios de Investir em Energia Solar
