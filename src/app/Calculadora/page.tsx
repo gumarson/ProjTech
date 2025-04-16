@@ -75,7 +75,7 @@ const CalculadoraPage: React.FC = () => {
                 keys={["solar", "comum"]}
                 indexBy="Energia"
                 layout="horizontal"
-                colors={["#16a34a", "#facc15"]}
+                colors={["#2a9d8f ", "#ff9f1c"]} // sky-600 e cyan-400
                 tooltipFormatter={(id, value, indexValue) =>
                   `${indexValue} gera ${value} kWh/m²`
                 }

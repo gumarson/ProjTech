@@ -30,6 +30,18 @@ const NivoBarChart = ({
         layout={layout}
         colors={colors}
         borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
+        theme={{
+          tooltip: {
+            container: {
+              background: "#f9fafb",
+              color: "#1f2937", // agora sim vai aparecer!
+              fontSize: 14,
+              borderRadius: "6px",
+              padding: "10px",
+            },
+          },
+        }}
+        
         axisLeft={{
           legend: "Energia",
           legendPosition: "middle",
@@ -45,15 +57,24 @@ const NivoBarChart = ({
         labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
         animate={true}
         motionConfig="wobbly"
-        tooltip={({ id, value, indexValue }) =>
-          tooltipFormatter ? (
-            <strong>{tooltipFormatter(String(id), value as number, String(indexValue))}</strong>
-          ) : (
+        tooltip={({ id, value, indexValue }) => (
+          <div
+            style={{
+              background: "#f9fafb",
+              color: "#1f2937", // Cor mais escura para melhor visibilidade
+              fontSize: 14,
+              borderRadius: "6px",
+              padding: "10px",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.1)", // Adiciona uma leve sombra
+            }}
+          >
             <strong>
-              {indexValue}: {value} kWh/m²
+              {tooltipFormatter
+                ? tooltipFormatter(String(id), value as number, String(indexValue))
+                : `${indexValue}: ${value} kWh/m²`}
             </strong>
-          )
-        }
+          </div>
+        )}
       />
     </div>
   );
