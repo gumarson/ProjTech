@@ -34,7 +34,7 @@ const NivoBarChart = ({
           tooltip: {
             container: {
               background: "#f9fafb",
-              color: "#1f2937", // agora sim vai aparecer!
+              color: "#1f2937", 
               fontSize: 14,
               borderRadius: "6px",
               padding: "10px",
@@ -54,18 +54,18 @@ const NivoBarChart = ({
         }}
         labelSkipWidth={12}
         labelSkipHeight={12}
-        labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
+        labelTextColor="#ffff"
         animate={true}
         motionConfig="wobbly"
         tooltip={({ id, value, indexValue }) => (
           <div
             style={{
               background: "#f9fafb",
-              color: "#1f2937", // Cor mais escura para melhor visibilidade
+              color: "#1f2937", 
               fontSize: 14,
               borderRadius: "6px",
               padding: "10px",
-              boxShadow: "0 2px 5px rgba(0,0,0,0.1)", // Adiciona uma leve sombra
+              boxShadow: "0 2px 5px rgba(0,0,0,0.1)", 
             }}
           >
             <strong>
