@@ -23,7 +23,7 @@ const TechInput: React.FC<TechInputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-400"
+        className="w-full p-2 text-black border rounded focus:outline-none focus:ring-2 focus:ring-sky-400"
       />
     </div>
   );

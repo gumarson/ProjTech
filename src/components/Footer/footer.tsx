@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import TechInput from "../TechInput/page";
-import Modal from "../Modal/modal";
+import Modal from "../Modal/contactModal";
 
 const Footer: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        title="Trabalhe Conosco" // Ajuste aqui o título conforme necessário
+        title="Trabalhe Conosco" 
       >
         <TechInput
           label="Nome"
