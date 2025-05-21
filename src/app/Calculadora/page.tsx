@@ -6,6 +6,22 @@ import Button from "@/components/Buttons/button";
 import TechAba from "@/components/Tabs/TechTab";
 import Modal from "@/components/Modal/modal";
 import TechInput from "@/components/TechInput/page";
+import SelectBox from "@/components/SelectBox/SelectBox";
+import { calcularPotencialSolar } from "@/services/test";
+import { getAddressByCep } from "@/services/viaCepService";
+
+type SolarCalcResult = {
+  irradianciaMedia: number;
+  consumoAjustado: number;
+  potenciaSistemaKWp: number;
+  quantidadePaineis: number;
+  areaNecessariaM2: number;
+  energiaGeradaMensal: number;
+  economiaMensal: number;
+  economiaAnual: number;
+  areaSuficiente: boolean;
+  mensagem: string;
+};
 
 const NivoBarChart = dynamic(
   () => import("@/components/Charts/NivoSolarBarChart"),
@@ -17,13 +33,93 @@ const NivoBarChart = dynamic(
 const CalculadoraPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("CidadesPotencial");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resultadoModal, setResultadoModal] = useState(false)
+  const [nome, setNome] = useState("");
+  const [cep, setCep] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [estado, setEstado] = useState("");
+  const [rua, setRua] = useState("");
+  const [tipoImovel, setTipoImovel] = useState("")
+  const [areaTelhado, setAreaTelhado] = useState("");
+  const [consumoMensal, setConsumoMensal] = useState("");
+  const [areaUtil, setAreaUtil] = useState("");
+  const [usoArCondicionado, setUsoArCondicionado] = useState<boolean | "">("");
+  const [aquecimentoAgua, setAquecimentoAgua] = useState<boolean | "">("");
+  const [resultado, setResultado] = useState<SolarCalcResult | null>(null);
+  const tipoImovelOptions = [
+    { value: "residencial", label: "Residencial" },
+    { value: "comercial", label: "Comercial" },
+    { value: "industrial", label: "Industrial" },
+  ]
+  const aquecimentoAguaOptions = [
+    { value: true, label: "Elétrico" },
+    { value: false, label: "Gás" },
+  ];
+  const arCondicionadoOptions = [
+    { value: true, label: "Sim" },
+    { value: false, label: "Não" },
+  ];
 
   const handleTabChange = (tabKey: string) => {
     setActiveTab(tabKey);
   };
 
-  const toggleModal = () => {
+    const ClearForm = () => {
+    setNome("");
+    setCep("");
+    setCidade("");
+    setEstado("");
+    setRua("");
+    setTipoImovel("");
+    setAreaTelhado("");
+    setConsumoMensal("");
+    setAreaUtil("");
+    setUsoArCondicionado("");
+    setAquecimentoAgua("");
+    }
+
+    const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+    setResultado(null);
+    ClearForm();
+  };
+
+  useEffect(() => {
+    const fetchAddress = async () => {
+      if (cep.length === 8) {
+        const address = await getAddressByCep(cep);
+        if (address) {
+          setCidade(address.localidade);
+          setEstado(address.uf);
+          setRua(address.logradouro);
+        }
+      }
+    };
+    fetchAddress();
+  }, [cep]);
+
+  const handleCalcular = async () => {
+    const consumo = Number(consumoMensal);
+    const area = Number(areaUtil)
+    if (cep && !isNaN(consumo) && consumo > 0 && !isNaN(area) && area > 0) {
+      try {
+        setIsModalOpen(false);
+        const resultadoCalculado = await calcularPotencialSolar(
+          cep,
+          consumo,
+          usoArCondicionado === "" ? false : usoArCondicionado,
+          aquecimentoAgua === "" ? false : aquecimentoAgua,
+          Number(areaUtil)
+        );
+        setResultado(resultadoCalculado);
+        setResultadoModal(true);
+      } catch (error) {
+        console.error("Erro ao calcular o potencial solar:", error);
+        setResultado(null);
+      }
+    } else {
+      setResultado(null);
+    }
   };
 
   return (
@@ -33,15 +129,10 @@ const CalculadoraPage: React.FC = () => {
       </h1>
       <div className="flex justify-center space-x-4 mb-8">
         <TechAba
-          label="Calculo potencial de geração solar"
+          label="Cálculo potencial de geração solar"
           isActive={activeTab === "CidadesPotencial"}
           onClick={() => handleTabChange("CidadesPotencial")}
         />
-        {/* <TechAba
-          label="Paises que adotaram o modelo de geração solar"
-          isActive={activeTab === "PaisesModelo"}
-          onClick={() => handleTabChange("PaisesModelo")}
-        /> */}
       </div>
 
       {activeTab === "CidadesPotencial" && (
@@ -75,7 +166,7 @@ const CalculadoraPage: React.FC = () => {
                 keys={["solar", "comum"]}
                 indexBy="Energia"
                 layout="horizontal"
-                colors={["#2a9d8f ", "#ff9f1c"]} // sky-600 e cyan-400
+                colors={["#2a9d8f ", "#ff9f1c"]}
                 tooltipFormatter={(id, value, indexValue) =>
                   `${indexValue} gera ${value} kWh/m²`
                 }
@@ -125,119 +216,9 @@ const CalculadoraPage: React.FC = () => {
         </div>
       )}
 
-      {/* {activeTab === "PaisesModelo" && (
-        <div>
-          <div className="flex flex-col md:flex-row md:space-x-8 items-start bg-white p-6 rounded-lg shadow mb-8">
-            <div className="md:w-1/2">
-              <h2 className="text-2xl font-semibold text-sky-800 mb-4">
-                Como isso pode beneficiar todo mundo?
-              </h2>
-              <p className="text-base text-gray-700 mb-6">
-                A energia solar é uma das alternativas mais promissoras para um
-                futuro sustentável, reduzindo a dependência de combustíveis
-                fósseis e minimizando impactos ambientais. Os países
-                mencionados, líderes na geração solar, demonstram que investir
-                nessa tecnologia traz benefícios econômicos, criando empregos e
-                fortalecendo a independência energética. Além disso, a adoção da
-                energia solar permite que consumidores reduzam custos com
-                eletricidade, tenham mais autonomia e até valorizem seus
-                imóveis. Com incentivos adequados, mais países e indivíduos
-                podem aproveitar essa fonte limpa e abundante, contribuindo para
-                um planeta mais saudável e equilibrado. O avanço das tecnologias
-                solares também aumenta a eficiência energética, tornando essa
-                opção cada vez mais acessível. Ao optar por essa alternativa,
-                empresas e residências podem se destacar na sustentabilidade e
-                impulsionar inovações no setor.
-              </p>
-            </div>
-            <div className="mt-10 w-full h-[400px]">
-              <NivoBarChart
-                data={[
-                  {
-                    country: "China",
-                    investimentos: 151,
-                    geracao: 609.5,
-                  },
-                  {
-                    country: "Estados Unidos",
-                    investimentos: 50,
-                    geracao: 139.2,
-                  },
-                  {
-                    country: "Japão",
-                    investimentos: 15,
-                    geracao: 87.1,
-                  },
-                  {
-                    country: "Alemanha",
-                    investimentos: 20,
-                    geracao: 81.7,
-                  },
-                  {
-                    country: "Brasil",
-                    investimentos: 9.4,
-                    geracao: 37.4,
-                  },
-                ]}
-                keys={["investimentos", "geracao"]}
-                indexBy="country"
-                layout="vertical"
-                colors={["#F4A261", "#2A9D8F"]}
-                tooltipFormatter={(id, value, indexValue) =>
-                  `${indexValue} qualquer ${value} coisa`
-                }
-              />
-
-              <h4 className="text-base text-gray-700">
-                A adoção da energia solar tem sido impulsionada por
-                investimentos significativos em diversos países, refletindo uma
-                mudança global em direção a fontes de energia mais sustentáveis.
-                Em 2024, os investimentos globais em energia solar devem
-                ultrapassar US$ 500 bilhões, superando os aportes em
-                combustíveis fósseis e outras fontes renováveis .
-              </h4>
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row bg-gray-50 p-6 rounded-lg shadow">
-            <div className="md:w-1/2">
-              <h3 className="text-2xl font-bold text-sky-900 mb-4">
-                Top 10 Paises que adotaram o modelo de geração solar
-              </h3>
-              <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                <li>1) China - 609.921 MW</li>
-                <li>2) Estados Unidos - 139.205 MW</li>
-                <li>3) Japão - 87.068 MW</li>
-                <li>4) Alemanha - 81.739 MW</li>
-                <li>5) Índia - 73.109 MW</li>
-                <li>6) Brasil - 37.449 MW</li>
-                <li>7) Austrália - 33.683 MW</li>
-                <li>8) Espanha - 31.016 MW</li>
-                <li>9) Itália - 29.795 MW</li>
-                <li>10) Coreia do Sul - 27.046 MW</li>
-              </ul>
-            </div>
-            <div className="md:w-1/2 md:pl-8">
-              <p className="text-base text-gray-700">
-                A energia solar é uma das alternativas mais promissoras para um
-                futuro sustentável, reduzindo a dependência de combustíveis
-                fósseis e minimizando impactos ambientais. Os países
-                mencionados, líderes na geração solar, demonstram que investir
-                nessa tecnologia traz benefícios econômicos, criando empregos e
-                fortalecendo a independência energética. Além disso, a adoção da
-                energia solar permite que consumidores reduzam custos com
-                eletricidade, tenham mais autonomia e até valorizem seus
-                imóveis. Com incentivos adequados, mais países e indivíduos
-                podem aproveitar essa fonte limpa e abundante, contribuindo para
-                um planeta mais saudável e equilibrado.
-              </p>
-            </div>
-          </div>
-        </div>
-      )} */}
 
       <div className="mt-8 text-center">
-        <Button label="Calcular Emissão" route="#" onClick={toggleModal} />
+        <Button label="Faça o Cálculo!" route="#" onClick={toggleModal} />
       </div>
 
       <Modal
@@ -245,76 +226,131 @@ const CalculadoraPage: React.FC = () => {
         onClose={toggleModal}
         title={
           activeTab === "CidadesPotencial"
-            ? "Calcular Emissão de Veículos"
+            ? "Calcular Geração Solar"
             : "Calcular Emissão Aérea"
         }
       >
-        {activeTab === "CidadesPotencial" ? (
-          <form>
+        <form className="flex flex-col md:flex-row gap-6">
+          {/* Sub-modal 1 - Dados Pessoais */}
+          <div className="flex-1 border-r border-gray-200 pr-4">
+            <h3 className="text-lg font-semibold mb-4 text-sky-800">Dados Pessoais</h3>
             <TechInput
-              label="Distância percorrida"
+              label="Nome"
               type="text"
-              value=""
-              onChange={() => {}}
-              placeholder="Insira a distância"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              placeholder="Digite seu nome"
+            />
+            <TechInput label="CEP"
+              type="text"
+              value={cep}
+              onChange={(e) => setCep(e.target.value)}
+              placeholder="Digite o CEP da residência"
             />
             <TechInput
-              label="Unidade de distância"
+              label="Cidade"
               type="text"
-              value=""
-              onChange={() => {}}
-              placeholder="Ex.: km, milhas"
+              value={cidade}
+              onChange={() => { }}
+              placeholder="Jundiaí"
             />
             <TechInput
-              label="Modelo do veículo"
+              label="Estado"
               type="text"
-              value=""
-              onChange={() => {}}
-              placeholder="Ex.: compact_gas"
+              value={estado}
+              onChange={() => { }}
+              placeholder="SP"
             />
             <TechInput
-              label="Tipo de transporte (veículo)"
+              label="Rua"
               type="text"
-              value=""
-              onChange={() => {}}
-              placeholder="Ex.: Carro, Caminhão"
+              value={rua}
+              onChange={() => { }}
+              placeholder="7 de março"
             />
-            <Button label="Ver Resultado" route="#" onClick={toggleModal} />
-          </form>
-        ) : (
-          <form>
+
             <TechInput
-              label="Número de passageiros"
+              label="Área do telhado (m²)"
               type="text"
-              value=""
-              onChange={() => {}}
-              placeholder="Insira o número de passageiros"
+              value={areaTelhado}
+              onChange={(e) => setAreaTelhado(e.target.value)}
+              placeholder="Ex: 20m²"
             />
+          </div>
+
+          {/* Sub-modal 2 - Dados Técnicos */}
+          <div className="flex-1 pl-4 space-y-4">
+            <h3 className="text-lg font-semibold mb-4 text-sky-800">Dados de Consumo</h3>
             <TechInput
-              label="Aeroporto de partida"
+              label="Consumo mensal (kWh)"
               type="text"
-              value=""
-              onChange={() => {}}
-              placeholder="Insira o código IATA do aeroporto"
-            />
-            <TechInput
-              label="Aeroporto de destino"
-              type="text"
-              value=""
-              onChange={() => {}}
-              placeholder="Insira o código IATA do destino"
+              value={consumoMensal}
+              onChange={(e) => setConsumoMensal(e.target.value)}
+              placeholder="Ex: 278.47"
             />
             <TechInput
-              label="Etapas adicionais do voo"
+              label="Área útil do telhado (m²)"
               type="text"
-              value=""
-              onChange={() => {}}
-              placeholder="Códigos dos aeroportos de escala (opcional)"
+              value={areaUtil}
+              onChange={(e) => setAreaUtil(e.target.value)}
+              placeholder="área aproveitável para os painéis solares"
             />
-            <Button label="Ver Resultado" route="#" onClick={toggleModal} />
-          </form>
-        )}
+
+            <SelectBox
+              label="Tipo de aquecimento de água"
+              options={aquecimentoAguaOptions}
+              value={aquecimentoAgua}
+              onChange={(value) => setAquecimentoAgua(value as boolean)}
+              placeholder="Gás, Elétrico"
+            />
+
+            <SelectBox
+              label="Uso do ar-condicionado"
+              options={arCondicionadoOptions}
+              value={usoArCondicionado}
+              onChange={(value) => setUsoArCondicionado(value as boolean)}
+              placeholder="Sim, Não"
+            />
+
+            <SelectBox
+              label="Tipo do imóvel"
+              options={tipoImovelOptions}
+              value={tipoImovel}
+              onChange={(value) => setTipoImovel(String(value))}
+              placeholder="Residêncial, Comercial..."
+              
+            />
+
+          </div>
+
+        </form>
+
+        <div className="mt-6 text-right">
+          <Button label="Ver Resultado" route="#" onClick={handleCalcular} />
+        </div>
+
       </Modal>
+
+      {resultadoModal && resultado && (
+  <Modal 
+    isOpen={resultadoModal}
+    onClose={() => setResultadoModal(false)}
+    title="Resultado da Simulação"
+  >
+    <p className="mb-4 text-black">{resultado.mensagem}</p>
+
+    <div className="grid grid-cols-2 gap-4 text-black">
+      <div><strong>Irradiância média:</strong> {resultado.irradianciaMedia} kWh/m²/dia</div>
+      <div><strong>Potência do sistema:</strong> {resultado.potenciaSistemaKWp} kWp</div>
+      <div><strong>Qtd. painéis:</strong> {resultado.quantidadePaineis}</div>
+      <div><strong>Área necessária:</strong> {resultado.areaNecessariaM2} m²</div>
+      <div><strong>Geração mensal:</strong> {resultado.energiaGeradaMensal} kWh</div>
+      <div><strong>Economia anual:</strong> R$ {resultado.economiaAnual}</div>
+    </div>
+  </Modal>
+)}
+
+
     </div>
   );
 };
