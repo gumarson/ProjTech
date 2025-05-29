@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Select, { SingleValue } from "react-select";
-
+import HelperTooltip from "../Helper/HelperTooltip";
 interface OptionType {
   value: string | number | boolean;
   label: string;
@@ -13,6 +13,8 @@ interface SelectBoxProps {
   value?: string | number | boolean;
   onChange: (value: string | number | boolean) => void;
   disabled?: boolean;
+  helperText?: string;
+  helperId?: string;
   label?: string;
 }
 
@@ -22,6 +24,8 @@ const SelectBox: React.FC<SelectBoxProps> = ({
   value,
   onChange,
   disabled = false,
+  helperText,
+  helperId,
   label
 }) => {
   const handleChange = (selectedOption: SingleValue<OptionType>) => {
@@ -31,7 +35,12 @@ const SelectBox: React.FC<SelectBoxProps> = ({
   return (
     <div className="mb-4">
         {label && (
-            <label className="block text-sky-900 font-bold mb-2">{label}</label>
+            <label className="block text-sky-900 font-bold mb-2">
+              {label}
+                {helperText && helperId && (
+                    <HelperTooltip id={helperId} text={helperText} />
+                  )}
+              </label>
         )}
         <Select
           options={options}
