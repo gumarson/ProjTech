@@ -1,4 +1,4 @@
-export async function getCoordinatesFromAddress(street: string, city: string, state: string) {
+export async function getCoordinates(street: string, city: string, state: string) {
   const baseUrl = 'https://nominatim.openstreetmap.org/search';
   const query = `${street}, ${city}, ${state}, Brazil`;
 
@@ -28,7 +28,7 @@ export async function getCoordinatesFromAddress(street: string, city: string, st
       longitude: parseFloat(lon),
     };
   } catch (error) {
-    console.error('Erro em getCoordinatesFromAddress:', error);
+    console.error('Erro em getCoordinates:', error);
     return null;
   }
 }

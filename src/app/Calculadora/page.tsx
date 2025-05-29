@@ -2,25 +2,40 @@
 
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { calcSolarPotential } from "@/services/Calculos/prepCalc";
 import Button from "@/components/Buttons/button";
 import TechAba from "@/components/Tabs/TechTab";
 import Modal from "@/components/Modal/modal";
 import TechInput from "@/components/TechInput/page";
 import SelectBox from "@/components/SelectBox/SelectBox";
-import { calcularPotencialSolar } from "@/services/test";
+import { simuladorSchema } from "@/schemas/formSchema";
 import { getAddressByCep } from "@/services/viaCepService";
 
 type SolarCalcResult = {
-  irradianciaMedia: number;
-  consumoAjustado: number;
-  potenciaSistemaKWp: number;
-  quantidadePaineis: number;
-  areaNecessariaM2: number;
-  energiaGeradaMensal: number;
-  economiaMensal: number;
-  economiaAnual: number;
-  areaSuficiente: boolean;
-  mensagem: string;
+  irradiance: number;
+  sysKWp: number;
+  panelCount: number;
+  areaNeeded: number;
+  possibleGen: number;
+  possibleMonthlySavings: number;
+  monthlySavings: number;
+  enoughArea: number | boolean;
+  usablePct: number;
+  totalPct: number;
+  msg: string;
+  msg2: string;
+  msg3: string;
+  highlights: {
+    roofUsable: number;
+    possibleGen: number;
+    possibleMonthlySavings: number;
+    possiblePct: number;
+    usageNeededTotalPct: number;
+    usageNeededUsablePct: number;
+    usageAvailableTotalPct: number;
+    usageAvailableUsablePct: number;
+    areaNeeded: number;
+  }
 };
 
 const NivoBarChart = dynamic(
@@ -39,18 +54,13 @@ const CalculadoraPage: React.FC = () => {
   const [cidade, setCidade] = useState("");
   const [estado, setEstado] = useState("");
   const [rua, setRua] = useState("");
-  const [tipoImovel, setTipoImovel] = useState("")
   const [areaTelhado, setAreaTelhado] = useState("");
   const [consumoMensal, setConsumoMensal] = useState("");
   const [areaUtil, setAreaUtil] = useState("");
   const [usoArCondicionado, setUsoArCondicionado] = useState<boolean | "">("");
   const [aquecimentoAgua, setAquecimentoAgua] = useState<boolean | "">("");
   const [resultado, setResultado] = useState<SolarCalcResult | null>(null);
-  const tipoImovelOptions = [
-    { value: "residencial", label: "Residencial" },
-    { value: "comercial", label: "Comercial" },
-    { value: "industrial", label: "Industrial" },
-  ]
+  const [errors, setErrors] = useState<Record<string, string>>({})
   const aquecimentoAguaOptions = [
     { value: true, label: "Elétrico" },
     { value: false, label: "Gás" },
@@ -64,25 +74,28 @@ const CalculadoraPage: React.FC = () => {
     setActiveTab(tabKey);
   };
 
-    const ClearForm = () => {
+  const ClearForm = () => {
     setNome("");
     setCep("");
     setCidade("");
     setEstado("");
     setRua("");
-    setTipoImovel("");
     setAreaTelhado("");
     setConsumoMensal("");
     setAreaUtil("");
     setUsoArCondicionado("");
     setAquecimentoAgua("");
-    }
+  }
 
-    const toggleModal = () => {
+  const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
     setResultado(null);
     ClearForm();
   };
+
+  function highlights(value: React.ReactNode) {
+    return <span className="font-bold italic underline text-black">{value}</span>;
+  }
 
   useEffect(() => {
     const fetchAddress = async () => {
@@ -99,28 +112,51 @@ const CalculadoraPage: React.FC = () => {
   }, [cep]);
 
   const handleCalcular = async () => {
-    const consumo = Number(consumoMensal);
-    const area = Number(areaUtil)
-    if (cep && !isNaN(consumo) && consumo > 0 && !isNaN(area) && area > 0) {
-      try {
-        setIsModalOpen(false);
-        const resultadoCalculado = await calcularPotencialSolar(
-          cep,
-          consumo,
-          usoArCondicionado === "" ? false : usoArCondicionado,
-          aquecimentoAgua === "" ? false : aquecimentoAgua,
-          Number(areaUtil)
-        );
-        setResultado(resultadoCalculado);
-        setResultadoModal(true);
-      } catch (error) {
-        console.error("Erro ao calcular o potencial solar:", error);
-        setResultado(null);
-      }
-    } else {
+    const formData = {
+      cep,
+      consumoMensal,
+      areaTelhado,
+      areaUtil,
+      aquecimentoAgua,
+      usoArCondicionado,
+    };
+
+    const result = simuladorSchema.safeParse(formData);
+
+    if (!result.success) {
+      const errorDetails = result.error.format();
+
+      setErrors({
+        cep: errorDetails.cep?._errors?.[0] || "",
+        consumoMensal: errorDetails.consumoMensal?._errors?.[0] || "",
+        areaTelhado: errorDetails.areaTelhado?._errors?.[0] || "",
+        areaUtil: errorDetails.areaUtil?._errors?.[0] || "",
+      });
+
+      return;
+    }
+
+    setErrors({});
+
+    const roofUsable = Number(result.data.areaUtil);
+    const roofTotal = Number(result.data.areaTelhado);
+
+    try {
+      const CalcResult = await calcSolarPotential(
+        cep,
+        Number(result.data.consumoMensal),
+        roofUsable,
+        roofTotal
+      );
+
+      setResultado(CalcResult);
+      setResultadoModal(true);
+    } catch (error) {
+      console.error("Erro ao calcular o potencial solar:", error);
       setResultado(null);
     }
   };
+
 
   return (
     <div className="p-8 bg-sky-50 rounded-lg shadow-lg max-w-5xl mx-auto">
@@ -240,19 +276,18 @@ const CalculadoraPage: React.FC = () => {
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Digite seu nome"
+              helperText="Digite seu nome no campo sugerido."
+              helperId="helper-nome"
             />
             <TechInput label="CEP"
               type="text"
               value={cep}
               onChange={(e) => setCep(e.target.value)}
               placeholder="Digite o CEP da residência"
-            />
-            <TechInput
-              label="Cidade"
-              type="text"
-              value={cidade}
-              onChange={() => { }}
-              placeholder="Jundiaí"
+              helperText="Digite seu CEP para começarmos a simulação."
+              helperId="helper-cep"
+              error={!!errors.cep}
+              errorMessage={errors.cep}
             />
             <TechInput
               label="Estado"
@@ -260,6 +295,19 @@ const CalculadoraPage: React.FC = () => {
               value={estado}
               onChange={() => { }}
               placeholder="SP"
+              helperText="O estado onde você reside."
+              helperId="helper-estado"
+              disabled
+            />
+            <TechInput
+              label="Cidade"
+              type="text"
+              value={cidade}
+              onChange={() => { }}
+              placeholder="Jundiaí"
+              helperText="A cidade onde você reside."
+              helperId="helper-cidade"
+              disabled
             />
             <TechInput
               label="Rua"
@@ -267,14 +315,9 @@ const CalculadoraPage: React.FC = () => {
               value={rua}
               onChange={() => { }}
               placeholder="7 de março"
-            />
-
-            <TechInput
-              label="Área do telhado (m²)"
-              type="text"
-              value={areaTelhado}
-              onChange={(e) => setAreaTelhado(e.target.value)}
-              placeholder="Ex: 20m²"
+              helperText="O endereço que você reside."
+              helperId="helper-rua"
+              disabled
             />
           </div>
 
@@ -287,21 +330,41 @@ const CalculadoraPage: React.FC = () => {
               value={consumoMensal}
               onChange={(e) => setConsumoMensal(e.target.value)}
               placeholder="Ex: 278.47"
+              helperText="Digite seu consumo mensal médio (utilize virgula ou ponto). "
+              helperId="helper-consumo"
+              error={!!errors.consumoMensal}
+              errorMessage={errors.consumoMensal}
+            />
+            <TechInput
+              label="Área do telhado (m²)"
+              type="text"
+              value={areaTelhado}
+              onChange={(e) => setAreaTelhado(e.target.value)}
+              placeholder="Ex: 40"
+              helperText="Área total disponível do seu telhado para instalação (utilize virgula ou ponto)."
+              helperId="helper-telhado"
+              error={!!errors.areaTelhado}
+              errorMessage={errors.areaTelhado}
             />
             <TechInput
               label="Área útil do telhado (m²)"
               type="text"
               value={areaUtil}
               onChange={(e) => setAreaUtil(e.target.value)}
-              placeholder="área aproveitável para os painéis solares"
+              placeholder="Ex: 20"
+              helperText="Área realmente utilizável do telhado, considerando sombras, estruturas, etc (utilize virgula ou ponto)."
+              helperId="helper-util"
+              error={!!errors.areaUtil}
+              errorMessage={errors.areaUtil}
             />
-
             <SelectBox
               label="Tipo de aquecimento de água"
               options={aquecimentoAguaOptions}
               value={aquecimentoAgua}
               onChange={(value) => setAquecimentoAgua(value as boolean)}
               placeholder="Gás, Elétrico"
+              helperText="O tipo de aquecimento utilizado no cotidiano"
+              helperId="helper-AquecAgua"
             />
 
             <SelectBox
@@ -310,15 +373,8 @@ const CalculadoraPage: React.FC = () => {
               value={usoArCondicionado}
               onChange={(value) => setUsoArCondicionado(value as boolean)}
               placeholder="Sim, Não"
-            />
-
-            <SelectBox
-              label="Tipo do imóvel"
-              options={tipoImovelOptions}
-              value={tipoImovel}
-              onChange={(value) => setTipoImovel(String(value))}
-              placeholder="Residêncial, Comercial..."
-              
+              helperText="Se usa Ar-condicionado, sim ou não, um calculo sera baseado no consumo"
+              helperId="helper-AC"
             />
 
           </div>
@@ -332,25 +388,47 @@ const CalculadoraPage: React.FC = () => {
       </Modal>
 
       {resultadoModal && resultado && (
-  <Modal 
-    isOpen={resultadoModal}
-    onClose={() => setResultadoModal(false)}
-    title="Resultado da Simulação"
-  >
-    <p className="mb-4 text-black">{resultado.mensagem}</p>
+        <Modal
+          isOpen={resultadoModal}
+          onClose={() => setResultadoModal(false)}
+          title="Resultado da Simulação"
+        >
+          <p className="text-black mb-1">
+            Com apenas {highlights(resultado.highlights.areaNeeded)} m² de área (de um total disponível de {highlights(resultado.highlights.roofUsable)} m²), você já consegue gerar {highlights(resultado.highlights.possibleMonthlySavings)} kWh/mês 
+            e economizar até R$ {highlights(resultado.highlights.possibleMonthlySavings)} por mês o que representa 100% da sua conta de luz.
+            <br />
+            Essa instalação utiliza apenas {highlights(resultado.highlights.usageNeededTotalPct)}% do seu telhado total (e {highlights(resultado.highlights.usageNeededUsablePct)}% da área disponível).
+            <br />
+            {resultado.highlights.roofUsable > resultado.highlights.areaNeeded && (
+              <>
+                Se você quiser utilizar os {highlights(resultado.highlights.roofUsable)} m² inteiros disponíveis, seria possível gerar até aproximadamente {highlights(resultado.highlights.possibleGen)} kWh/mês, reduzindo sua conta em até {highlights(resultado.highlights.possiblePct)}% 
+                e economizando até R$ {highlights(resultado.highlights.possibleGen)} por mês.
+              </>
+            )}
+          </p>
 
-    <div className="grid grid-cols-2 gap-4 text-black">
-      <div><strong>Irradiância média:</strong> {resultado.irradianciaMedia} kWh/m²/dia</div>
-      <div><strong>Potência do sistema:</strong> {resultado.potenciaSistemaKWp} kWp</div>
-      <div><strong>Qtd. painéis:</strong> {resultado.quantidadePaineis}</div>
-      <div><strong>Área necessária:</strong> {resultado.areaNecessariaM2} m²</div>
-      <div><strong>Geração mensal:</strong> {resultado.energiaGeradaMensal} kWh</div>
-      <div><strong>Economia anual:</strong> R$ {resultado.economiaAnual}</div>
-    </div>
-  </Modal>
-)}
+          <div className="grid grid-cols-2 gap-4 text-black border border-black rounded p-4">
+            <div><strong>Irradiância média:</strong> {resultado.irradiance} kWh/m²/dia</div>
+            <div><strong>Potência do sistema:</strong> {resultado.sysKWp} kWp</div>
+            <div><strong>Qtd. painéis:</strong> {resultado.panelCount}</div>
+            <div><strong>Área mínima:</strong> {resultado.areaNeeded} m²</div>
+            <div><strong>Geração mensal:</strong> {resultado.possibleMonthlySavings} kWh</div>
+            <div><strong>Economia mensal:</strong> R$ {resultado.monthlySavings}</div>
+          </div>
+          <p className="text-black mt-1">
+            {resultado.enoughArea ? (
+              <>
+                {resultado.msg2}
+                <br />
+                Este resultado é possível devido a área mínima de {highlights(resultado.highlights.areaNeeded)} m² fornecida.
+              </>
+            ) : (
+              resultado.msg2
+            )}
+          </p>
 
-
+        </Modal>
+      )}
     </div>
   );
 };

@@ -1,14 +1,9 @@
-import { getCoordinatesFromAddress } from "./geocodingService";
-import { getAddressByCep } from "./viaCepService";
-import { calcularGeracaoSolar } from "../components/TechInput/test";
+import { getCoordinates } from "../geocodingService";
+import { getAddressByCep } from "../viaCepService";
+import { solarSim } from "./ExecCalc";
 
-export async function calcularPotencialSolar(
-  cep: string,
-  consumoMensal: number,
-  usaArCondicionado: boolean,
-  usaAquecimentoEletrico: boolean,
-  areaUtilM2: number
-) {
+export async function calcSolarPotential(
+cep: string, monthlyKWh: number, roofUsable: number, roofTotal: number) {
   try {
     const address = await getAddressByCep(cep);
     if (!address) throw new Error("Endereço não encontrado via CEP");
@@ -16,19 +11,18 @@ export async function calcularPotencialSolar(
     const fullAddress = `${address.logradouro}, ${address.localidade}, ${address.uf}`;
     console.log("[calcularPotencialSolar] Endereço completo:", fullAddress);
 
-    const coords = await getCoordinatesFromAddress(address.logradouro, address.localidade, address.uf);
+    const coords = await getCoordinates(address.logradouro, address.localidade, address.uf);
     if (!coords) throw new Error("Coordenadas não encontradas");
 
     const { latitude } = coords;
 
-    const resultado = calcularGeracaoSolar({
-      consumoMensalKWh: consumoMensal,
+    const resultado = solarSim({
+      monthlyKWh: monthlyKWh,
       latitude,
-      usaArCondicionado,
-      usaAquecimentoEletrico,
-      areaUtilM2: areaUtilM2, 
-      
+      roofUsable: roofUsable, 
+      roofTotal: roofTotal,
     });
+    console.log("resultado: ",resultado)
 
     console.log("[calcularPotencialSolar] Resultado:", resultado);
     return resultado;
