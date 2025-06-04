@@ -12,6 +12,7 @@ interface TechInputProps {
   helperId?: string;
   error?: boolean | string;
   errorMessage?: string;
+  maxLength?: number; // Adicionado para permitir limitar o tamanho do input
 }
 
 const TechInput: React.FC<TechInputProps> = ({
@@ -24,7 +25,8 @@ const TechInput: React.FC<TechInputProps> = ({
   helperText = '',
   helperId,
   error,
-  errorMessage 
+  errorMessage,
+  maxLength,
 }) => {
   return (
    <div className="mb-4">
@@ -41,6 +43,7 @@ const TechInput: React.FC<TechInputProps> = ({
     onChange={onChange}
     placeholder={placeholder}
     disabled={disabled}
+    maxLength={maxLength} // Passa o maxLength para o input
     className={`w-full p-2 text-black border rounded focus:outline-none 
       ${error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-sky-400'}`}
   />

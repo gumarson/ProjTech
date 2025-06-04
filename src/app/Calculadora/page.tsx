@@ -113,6 +113,7 @@ const CalculadoraPage: React.FC = () => {
 
   const handleCalcular = async () => {
     const formData = {
+      nome,
       cep,
       consumoMensal,
       areaTelhado,
@@ -127,6 +128,7 @@ const CalculadoraPage: React.FC = () => {
       const errorDetails = result.error.format();
 
       setErrors({
+        nome: result.error.errors[0].message || "",
         cep: errorDetails.cep?._errors?.[0] || "",
         consumoMensal: errorDetails.consumoMensal?._errors?.[0] || "",
         areaTelhado: errorDetails.areaTelhado?._errors?.[0] || "",
@@ -278,6 +280,8 @@ const CalculadoraPage: React.FC = () => {
               placeholder="Digite seu nome"
               helperText="Digite seu nome no campo sugerido."
               helperId="helper-nome"
+              error={!!errors.nome}
+              errorMessage={errors.nome}
             />
             <TechInput label="CEP"
               type="text"
@@ -288,6 +292,7 @@ const CalculadoraPage: React.FC = () => {
               helperId="helper-cep"
               error={!!errors.cep}
               errorMessage={errors.cep}
+              maxLength={8}
             />
             <TechInput
               label="Estado"
@@ -363,7 +368,7 @@ const CalculadoraPage: React.FC = () => {
               value={aquecimentoAgua}
               onChange={(value) => setAquecimentoAgua(value as boolean)}
               placeholder="Gás, Elétrico"
-              helperText="O tipo de aquecimento utilizado no cotidiano"
+              helperText="O tipo de aquecimento utilizado no cotidiano."
               helperId="helper-AquecAgua"
             />
 
@@ -373,7 +378,7 @@ const CalculadoraPage: React.FC = () => {
               value={usoArCondicionado}
               onChange={(value) => setUsoArCondicionado(value as boolean)}
               placeholder="Sim, Não"
-              helperText="Se usa Ar-condicionado, sim ou não, um calculo sera baseado no consumo"
+              helperText="Se o Ar-condicionado é utilizado no cotidiano."
               helperId="helper-AC"
             />
 

@@ -1,6 +1,10 @@
 import { z } from "zod";
 
 export const simuladorSchema = z.object({
+  nome: z 
+  .string()
+  .min(1, "Por favor digite seu nome."),
+  
   consumoMensal: z
     .string()
     .min(1, "Informe o consumo mensal.")
