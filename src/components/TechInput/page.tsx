@@ -30,7 +30,7 @@ const TechInput: React.FC<TechInputProps> = ({
 }) => {
   return (
    <div className="mb-4">
-  <label className="block text-sky-900 font-bold mb-2">
+  <label className="block text-white font-bold mb-2">
     {label}
     {helperText && helperId && (
       <HelperTooltip id={helperId} text={helperText} />
@@ -43,9 +43,11 @@ const TechInput: React.FC<TechInputProps> = ({
     onChange={onChange}
     placeholder={placeholder}
     disabled={disabled}
-    maxLength={maxLength} // Passa o maxLength para o input
-    className={`w-full p-2 text-black border rounded focus:outline-none 
-      ${error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-sky-400'}`}
+    maxLength={maxLength}
+    className={`w-full p-3 rounded-lg bg-primary-700 border border-primary-600 
+      text-white placeholder-primary-400 focus:outline-none focus:ring-2 
+      focus:ring-accent-400 transition-all duration-300
+      ${error ? 'border-red-500 focus:ring-red-500' : ''}`}
   />
 
   {error && errorMessage && (

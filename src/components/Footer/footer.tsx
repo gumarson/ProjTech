@@ -15,11 +15,11 @@ const Footer: React.FC = () => {
   const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <footer className="bg-blue-200 p-4 text-center">
-      <p className="text-blue-900">
+    <footer className="bg-black p-4 text-center">
+      <p className="text-white">
         Quer fazer parte da nossa equipe?{" "}
         <span
-          className="text-blue-800 font-bold cursor-pointer hover:underline"
+          className="text-white-800 font-bold cursor-pointer hover:underline"
           onClick={handleOpenModal}
         >
           Trabalhe Conosco
@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
           placeholder="(XX) XXXXX-XXXX"
         />
         <div className="mb-4">
-          <label className="block text-blue-900 font-bold mb-2">
+          <label className="block text-white-900 font-bold mb-2">
             Mensagem
           </label>
           <textarea
@@ -72,14 +72,14 @@ const Footer: React.FC = () => {
         </button>
       </Modal>
 
-      <p className="text-blue-800 mt-4">
+      <p className="text-white mt-4">
         &copy; 2024 ProjTech. Todos os direitos reservados.
       </p>
-      <p className="text-blue-800">
+      <p className="text-white">
         Entre em contato:{" "}
         <a
           href="mailto:contato@projtech.com"
-          className="underline hover:text-blue-900"
+          className="underline hover:text-white-900"
         >
           contato@projtech.com
         </a>

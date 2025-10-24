@@ -161,8 +161,8 @@ const CalculadoraPage: React.FC = () => {
 
 
   return (
-    <div className="p-8 bg-sky-50 rounded-lg shadow-lg max-w-5xl mx-auto">
-      <h1 className="text-4xl font-extrabold mb-8 text-center text-sky-900">
+    <div className="p-8 bg-slate-800 rounded-lg shadow-lg max-w-5xl mx-auto">
+      <h1 className="text-4xl font-extrabold mb-8 text-center text-white">
         Análise Solar
       </h1>
       <div className="flex justify-center space-x-4 mb-8">
@@ -175,22 +175,22 @@ const CalculadoraPage: React.FC = () => {
 
       {activeTab === "CidadesPotencial" && (
         <div>
-          <div className="flex flex-col md:flex-row md:space-x-8 items-start bg-white p-6 rounded-lg shadow mb-8">
+          <div className="flex flex-col md:flex-row md:space-x-8 items-start bg-slate-700 p-6 rounded-lg shadow mb-8">
             <div className="md:w-1/2">
-              <h2 className="text-2xl font-semibold text-sky-800 mb-4">
+              <h2 className="text-2xl font-semibold text-white mb-4">
                 Está pronto para descobrir o quanto sua casa pode economizar com
                 energia solar?
               </h2>
-              <p className="text-base text-gray-700 mb-6">
+              <p className="text-base text-gray-300 mb-6">
                 Nossa simulação mostra o potencial de geração solar da sua
                 residência com base em informações simples. Você não precisa ser
                 especialista — em poucos cliques, descubra:
               </p>
-              <ul className="list-disc pl-6 space-y-2 text-base text-gray-700">
+              <ul className="list-disc pl-6 space-y-2 text-base text-gray-300">
                 <li>Quantos kWh sua casa pode gerar por mês.</li>
                 <li>Quanto isso representa em economia na conta de luz.</li>
               </ul>
-              <p className="text-base text-gray-700">
+              <p className="text-base text-gray-300">
                 Comece agora e veja como sua casa pode se transformar em uma
                 fonte de energia limpa e econômica!
               </p>
@@ -204,12 +204,11 @@ const CalculadoraPage: React.FC = () => {
                 keys={["solar", "comum"]}
                 indexBy="Energia"
                 layout="horizontal"
-                colors={["#2a9d8f ", "#ff9f1c"]}
                 tooltipFormatter={(id, value, indexValue) =>
                   `${indexValue} gera ${value} kWh/m²`
                 }
               />
-              <h4 className="text-base text-gray-700">
+              <h4 className="text-base text-gray-300">
                 A energia solar pode gerar mais que o dobro da energia comum — o
                 que pode representar economia de até R$ <strong>150</strong> por
                 mês na sua conta de luz.
@@ -217,12 +216,12 @@ const CalculadoraPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row bg-gray-50 p-6 rounded-lg shadow">
+          <div className="flex flex-col md:flex-row bg-slate-700 p-6 rounded-lg shadow">
             <div className="md:w-1/2">
-              <h3 className="text-2xl font-bold text-sky-900 mb-4">
+              <h3 className="text-2xl font-bold text-white mb-4">
                 Top 10 Estados do Brasil com Maior Potencial de Geração Solar em 2025
               </h3>
-              <ul className="list-disc pl-6 space-y-2 text-gray-700">
+              <ul className="list-disc pl-6 space-y-2 text-gray-300">
                 <li>1º) Minas Gerais: 1.730 MW</li>
                 <li>2º) São Paulo: 1.323 MW</li>
                 <li>3º) Rio Grande do Sul: 1.170 MW</li>
@@ -236,7 +235,7 @@ const CalculadoraPage: React.FC = () => {
               </ul>
             </div>
             <div className="md:w-1/2 md:pl-8">
-              <p className="text-base text-gray-700">
+              <p className="text-base text-gray-300">
                 O potencial de geração solar varia significativamente entre as
                 cidades brasileiras e é influenciado por fatores como índice de
                 radiação solar, disponibilidade de áreas para instalação de
@@ -271,7 +270,7 @@ const CalculadoraPage: React.FC = () => {
         <form className="flex flex-col md:flex-row gap-6">
           {/* Sub-modal 1 - Dados Pessoais */}
           <div className="flex-1 border-r border-gray-200 pr-4">
-            <h3 className="text-lg font-semibold mb-4 text-sky-800">Dados Pessoais</h3>
+            <h3 className="text-lg font-semibold mb-4 text-white">Dados Pessoais</h3>
             <TechInput
               label="Nome"
               type="text"
@@ -328,7 +327,7 @@ const CalculadoraPage: React.FC = () => {
 
           {/* Sub-modal 2 - Dados Técnicos */}
           <div className="flex-1 pl-4 space-y-4">
-            <h3 className="text-lg font-semibold mb-4 text-sky-800">Dados de Consumo</h3>
+            <h3 className="text-lg font-semibold mb-4 text-white">Dados de Consumo</h3>
             <TechInput
               label="Consumo mensal (kWh)"
               type="text"

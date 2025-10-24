@@ -11,12 +11,21 @@ interface NivoBarChartProps {
   tooltipFormatter?: (id: string, value: number, indexValue: string) => string;
 }
 
+const industrialColors = [
+  "#1e293b", // slate-800
+  "#334155", // slate-700
+  "#0f172a", // slate-900
+  "#2563eb", // accent blue
+  "#64748b", // slate-500
+  "#111827", // near-black
+];
+
 const NivoBarChart = ({
   data,
   keys,
   indexBy,
   layout = "vertical",
-  colors = { scheme: "nivo" }, 
+  colors = industrialColors, // alterado aqui
   tooltipFormatter,
 }: NivoBarChartProps) => {
   return (

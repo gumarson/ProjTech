@@ -11,11 +11,20 @@ interface ChartComponentProps {
   type?: 'pie' | 'bar';
 }
 
+const industrialColors = [
+  "#1e293b", // slate-800
+  "#334155", // slate-700
+  "#0f172a", // slate-900
+  "#2563eb", // accent blue
+  "#64748b", // slate-500
+  "#111827", // near-black
+];
+
 const ChartComponent: React.FC<ChartComponentProps> = ({
   series,
   labels,
   title,
-  colors = ['#004d40', '#1b5e20', '#2e7d32', '#4caf50'],
+  colors = industrialColors, // alterado aqui
   type = 'pie',
 }) => {
   const [isClient, setIsClient] = useState(false);
@@ -33,7 +42,10 @@ const ChartComponent: React.FC<ChartComponentProps> = ({
     labels,
     colors,
     legend: {
-      position: 'bottom' as 'bottom',
+      position: 'bottom' as 'bottom', // Posição da legenda
+      labels: {
+        colors: '#fff', // Define a cor dos labels da legenda como branco
+      },
     },
     dataLabels: {
       enabled: true,

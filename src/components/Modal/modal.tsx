@@ -13,10 +13,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title = 'Modal
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full">
+      <div className="bg-slate-800 p-8 rounded-lg shadow-lg max-w-2xl w-full">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-blue-900 font-bold text-2xl">{title}</h2>
-          <button onClick={onClose} className="text-red-500 font-bold text-lg">
+          <h2 className="text-white-900 font-bold text-2xl">{title}</h2>
+          <button onClick={onClose} className="text-white font-bold text-lg">
         X
           </button>
         </div>
