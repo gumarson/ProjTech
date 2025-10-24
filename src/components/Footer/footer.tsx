@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
       <p className="text-white">
         Quer fazer parte da nossa equipe?{" "}
         <span
-          className="text-white-800 font-bold cursor-pointer hover:underline"
+          className="text-blue-700 font-bold cursor-pointer hover:underline "
           onClick={handleOpenModal}
         >
           Trabalhe Conosco

@@ -10,130 +10,91 @@ const ChartComponent = dynamic(() => import("@/components/Charts/PieChart"), {
 
 const Home: React.FC = () => {
   return (
-    <div className="bg-slate-700 p-8">
-      <h1 className="text-4xl font-bold text-white text-center mb-8">
-        Energia Solar
-      </h1>
+    <div className="p-8">
 
-      <section className="bg-primary-700 p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10">
-        <h2 className="text-3xl font-bold text-white mb-6 border-b border-accent-400/30 pb-4">
-          O que fazemos?
+      <section className=" p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10">
+        <h2 className="text-3xl font-bold text-white mb-6 border-b border-blue-400/30 pb-4">
+          Nossa Missão
         </h2>
-        <div className="bg-primary-800 p-6 rounded-lg">
-          <p className="text-gray-300 leading-relaxed bg-slate-700 p-4 rounded-lg">
-            Nossa missão é clara: permitir que qualquer pessoa, de forma simples e
-            acessível, possa entender o potencial de geração de energia solar em
-            sua residência. Por meio de uma plataforma intuitiva, oferecemos uma
-            análise prática que ajuda a visualizar como o uso da energia solar
-            pode contribuir para um consumo mais consciente e sustentável. Criamos
-            este projeto com o objetivo de tornar o conhecimento sobre energia
-            solar mais próximo da realidade das pessoas. Sabemos que, muitas
-            vezes, esse tipo de informação pode parecer técnico ou distante, por
-            isso desenvolvemos uma ferramenta que facilita esse entendimento e
-            ajuda na tomada de decisões. Acreditamos que, ao mostrar de forma
-            clara e objetiva como a energia solar pode ser aproveitada em cada
-            casa, podemos incentivar escolhas mais sustentáveis e inteligentes.
-            Nosso propósito é empoderar o usuário, oferecendo informações úteis e
-            acessíveis para promover um futuro com mais energia limpa e
-            eficiência.
+        <div className="">
+          <p className="text-gray-300 leading-relaxed  p-4 rounded-lg text-xl">
+            Reduza custos e impulsione seu negócio com energia solar e soluções de carregamento elétrico corporativo.
           </p>
         </div>
       </section>
 
-      <section className="bg-primary-700 p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10">
+      <section className="p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10">
         <h2 className="text-3xl font-bold text-white mb-6 border-b border-accent-400/30 pb-4">
-          Por que investir em energia solar residencial?
+          Por que investir em energia sustentável para sua empresa?
         </h2>
-        <div className="bg-primary-800 p-6 rounded-lg">
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
-            <div className="flex flex-col items-center lg:w-1/3">
-              <h3 className="text-white font-bold mb-2">
-                Impacto da Energia Solar (2024-2025)
-              </h3>
-              <ChartComponent
-                series={[30, 70]}
-                labels={["Uso de Fontes Poluentes", "Energia Limpa"]}
-              />
-            </div>
-            <div className="flex flex-col items-center lg:w-1/3">
-              <h3 className="text-white font-bold mb-2">
-                Projeção de Economia Residencial (2024-2025)
-              </h3>
-              <ChartComponent
-                series={[10, 90]}
-                labels={["Custo Atualmente Pago", "Economia com Solar"]}
-              />
-            </div>
-            {/* <div className="flex flex-col items-center lg:w-1/3">
-            <h3 className="text-sky-900 font-bold mb-2">
-              Projeção de Economia Residencial
+
+        <div className="flex flex-col lg:flex-row justify-center items-start gap-8">
+          {/* Gráficos lado a lado */}
+          <div className="flex-1 flex flex-col items-center">
+            <h3 className="text-white font-bold mb-2">
+              Crescimento da Energia Solar Corporativa (2024–2025)
             </h3>
-            <ChartComponent
-              series={[40, 60]}
-              labels={["Custo Atual", "Economia com Solar"]}
-              colors={["#ff7f50", "#22d3ee"]}
-            />
-          </div> */}
-            <div className="bg-slate-600 p-4 rounded-lg shadow-md lg:w-1/3 mt-4 lg:mt-0">
-              <h3 className="text-white font-bold mb-2">
-                Benefícios de Investir em Energia Solar
-              </h3>
-              <p className="text-white">
-                De acordo com o Portal Solar, investir em energia solar traz
-                diversos benefícios para o consumidor residencial:
-              </p>
-              <ul className="text-white mt-2 list-disc list-inside">
-                <li>
-                  <strong>Economia na conta de luz:</strong> Um sistema solar pode
-                  reduzir até 95% dos custos com energia elétrica, gerando
-                  economia a longo prazo.
-                </li>
-                <li>
-                  <strong>Retorno garantido:</strong> O investimento se paga, em
-                  média, entre 4 a 6 anos, com vida útil dos painéis de até 25
-                  anos.
-                </li>
-                <li>
-                  <strong>Valorização do imóvel:</strong> Casas com energia solar
-                  se tornam mais atrativas no mercado e podem ter maior valor de
-                  venda.
-                </li>
-                <li>
-                  <strong>Baixa manutenção:</strong> Sistemas solares exigem pouca
-                  manutenção e têm alta durabilidade.
-                </li>
-                <li>
-                  <strong>Sustentabilidade na prática:</strong> Cada residência
-                  que adota energia solar ajuda a reduzir a emissão de CO₂ e o uso
-                  de fontes poluentes.
-                </li>
-              </ul>
-              <p className="text-gray-700 mt-2">
-                Investir em energia solar é unir economia, independência
-                energética e cuidado com o meio ambiente.
-              </p>
+            <div className="w-full max-w-md">
+              <ChartComponent
+                series={[25, 75]}
+                labels={["Fontes Tradicionais", "Energia Solar Corporativa"]}
+                colors={["#FF0000", "#4c9c2e"]}
+              />
+            </div>
+          </div>
+
+          <div className="flex-1 flex flex-col items-center">
+            <h3 className="text-white font-bold mb-2">
+              Redução Média de Custos Empresariais (2024–2025)
+            </h3>
+            <div className="w-full max-w-md">
+              <ChartComponent
+                series={[20, 80]}
+                labels={["Custo Anterior", "Economia com Solar"]}
+                colors={["#FF0000", "#4c9c2e"]}
+              />
             </div>
           </div>
         </div>
-      </section>
 
-      <section className="bg-primary-700 p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10 flex flex-col lg:flex-row justify-between items-center">
-        <div className="lg:w-2/3">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Como funciona?
-          </h2>
-          <p className="text-gray-300 leading-relaxed bg-slate-600 p-4 rounded-lg">
-            Nosso sistema de análise solar é simples e rápido. Você só precisa
-            informar dados básicos sobre a localização e características da sua
-            residência. Com essas informações, o sistema estima o potencial de
-            geração de energia solar no local, ajudando você a entender como
-            aproveitar melhor essa fonte limpa e econômica.
+        {/* Texto de benefícios embaixo */}
+        <div className="mt-10 p-4 rounded-lg shadow-md">
+          <h3 className="text-white font-bold mb-2">
+            Benefícios de investir em energia solar e mobilidade elétrica corporativa
+          </h3>
+          <p className="text-white">
+            Empresas que adotam soluções sustentáveis não apenas reduzem custos operacionais,
+            mas também fortalecem sua imagem de marca e se alinham às metas ESG (Environmental, Social and Governance).
+          </p>
+          <ul className="text-white mt-2 list-disc list-inside text-lg">
+            <li>
+              <strong>Redução de custos fixos:</strong> Sistemas fotovoltaicos podem reduzir até 90% da conta de energia do seu CNPJ.
+            </li>
+            <li>
+              <strong>Retorno sobre o investimento:</strong> Payback médio entre 3 e 5 anos, com painéis de alta durabilidade (25+ anos).
+            </li>
+            <li>
+              <strong>Valorização da marca:</strong> Projetos sustentáveis aumentam a credibilidade e atraem clientes e investidores.
+            </li>
+            <li>
+              <strong>Pontos de carregamento elétrico:</strong> Prepare sua empresa para a nova era da mobilidade sustentável,
+              oferecendo infraestrutura para veículos elétricos.
+            </li>
+            <li>
+              <strong>Conformidade e sustentabilidade:</strong> Contribua para a redução de emissões de CO₂ e cumpra metas ambientais corporativas.
+            </li>
+          </ul>
+          <p className="mt-4 text-white">
+            Investir em energia solar e mobilidade elétrica é transformar sua empresa em referência de inovação, economia e responsabilidade ambiental.
           </p>
         </div>
-        <div className="mt-4 lg:mt-0">
-          <Button label="Faça o Teste Agora" route="/Calculadora" />
-        </div>
       </section>
+
+
+      <section className=" p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10 flex justify-center">
+        <Button label="Faça o Teste Agora" route="/Calculadora" />
+      </section>
+
     </div>
   );
 };

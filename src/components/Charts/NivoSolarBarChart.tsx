@@ -2,13 +2,14 @@
 
 import { ResponsiveBar } from "@nivo/bar";
 
-interface NivoBarChartProps {
+export interface NivoBarChartProps {
   data: any[];
   keys: string[];
   indexBy: string;
-  layout?: "vertical" | "horizontal";
-  colors?: {scheme: "nivo"} | string[] | ((bar: any) => string);
+  layout?: "horizontal" | "vertical";
+  colors?: string[];
   tooltipFormatter?: (id: string, value: number, indexValue: string) => string;
+  margin?: { top: number; right: number; bottom: number; left: number }; // Adicione esta linha
 }
 
 const industrialColors = [
@@ -25,8 +26,9 @@ const NivoBarChart = ({
   keys,
   indexBy,
   layout = "vertical",
-  colors = industrialColors, // alterado aqui
+  colors = industrialColors,  
   tooltipFormatter,
+  margin = { top: 20, right: 20, bottom: 40, left: 60 }, // Valor padrão
 }: NivoBarChartProps) => {
   return (
     <div style={{ height: 400, width: "100%", backgroundColor: "lightgray" }}>
@@ -34,7 +36,7 @@ const NivoBarChart = ({
         data={data}
         keys={keys}
         indexBy={indexBy}
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        margin={margin}
         padding={0.3}
         layout={layout}
         colors={colors}

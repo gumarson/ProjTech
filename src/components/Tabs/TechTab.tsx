@@ -12,11 +12,11 @@ const TechAba: React.FC<TechAbaProps> = ({ label, isActive, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
-        isActive
-          ? 'bg-slate-700 text-white'
-          : 'bg-slate-600 text-white-900 hover:bg-slate-500'
-      }`}
+      className={`px-4 py-2 rounded-lg transition-colors duration-200 font-semibold  
+        ${isActive
+          ? 'bg-slate-900 text-white border-b-4 border-green-400 shadow'
+          : 'bg-slate-600 text-white hover:bg-slate-700'
+        }`}
     >
       {label}
     </button>

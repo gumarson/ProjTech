@@ -161,13 +161,13 @@ const CalculadoraPage: React.FC = () => {
 
 
   return (
-    <div className="p-8 bg-slate-800 rounded-lg shadow-lg max-w-5xl mx-auto">
+    <div className="p-8  rounded-lg shadow-lg max-w-5xl mx-auto">
       <h1 className="text-4xl font-extrabold mb-8 text-center text-white">
-        Análise Solar
+
       </h1>
       <div className="flex justify-center space-x-4 mb-8">
         <TechAba
-          label="Cálculo potencial de geração solar"
+          label="placeholder"
           isActive={activeTab === "CidadesPotencial"}
           onClick={() => handleTabChange("CidadesPotencial")}
         />
@@ -175,54 +175,55 @@ const CalculadoraPage: React.FC = () => {
 
       {activeTab === "CidadesPotencial" && (
         <div>
-          <div className="flex flex-col md:flex-row md:space-x-8 items-start bg-slate-700 p-6 rounded-lg shadow mb-8">
+          {/* Simulação de economia corporativa */}
+          <div className="flex flex-col md:flex-row md:space-x-8 items-start p-6 rounded-lg shadow mb-8 transition-all duration-300 hover:shadow-accent-300/30">
             <div className="md:w-1/2">
               <h2 className="text-2xl font-semibold text-white mb-4">
-                Está pronto para descobrir o quanto sua casa pode economizar com
-                energia solar?
+                Pronto para descobrir o quanto sua empresa pode economizar com energia solar?
               </h2>
-              <p className="text-base text-gray-300 mb-6">
-                Nossa simulação mostra o potencial de geração solar da sua
-                residência com base em informações simples. Você não precisa ser
-                especialista — em poucos cliques, descubra:
+              <p className="text-lg text-gray-300 mb-6">
+                Nossa análise mostra o potencial de geração solar do seu negócio com base em dados simples do seu CNPJ.
+                Em poucos minutos, você entende:
               </p>
-              <ul className="list-disc pl-6 space-y-2 text-base text-gray-300">
-                <li>Quantos kWh sua casa pode gerar por mês.</li>
-                <li>Quanto isso representa em economia na conta de luz.</li>
+              <ul className="list-disc pl-6 space-y-2 text-lg text-gray-300">
+                <li>O quanto sua empresa pode gerar em kWh mensalmente.</li>
+                <li>O percentual de redução nos custos de energia elétrica.</li>
+                <li>O impacto ambiental positivo e as emissões de CO₂ evitadas.</li>
               </ul>
-              <p className="text-base text-gray-300">
-                Comece agora e veja como sua casa pode se transformar em uma
-                fonte de energia limpa e econômica!
+              <p className="text-lg text-gray-300 mt-4">
+                Comece agora e veja como a energia solar pode transformar o desempenho energético e sustentável da sua empresa.
               </p>
             </div>
-            <div className="mt-10 w-full h-[400px]">
+
+            <div className="mt-10 w-full min-w-[500px]">
               <NivoBarChart
                 data={[
-                  { Energia: "Solar", solar: 70, comum: 0 },
-                  { Energia: "Comum", solar: 0, comum: 30 },
+                  { Energia: "Energia Solar", solar: 80, comum: 0 },
+                  { Energia: "Convencional", solar: 0, comum: 20 },
                 ]}
                 keys={["solar", "comum"]}
                 indexBy="Energia"
                 layout="horizontal"
+                margin={{ top: 20, right: 20, bottom: 50, left: 80 }} // Aumenta o espaço à esquerda
+                colors={["#4c9c2e", "#FF0000"]}
                 tooltipFormatter={(id, value, indexValue) =>
-                  `${indexValue} gera ${value} kWh/m²`
+                  `${indexValue}: ${value}% de eficiência energética`
                 }
               />
-              <h4 className="text-base text-gray-300">
-                A energia solar pode gerar mais que o dobro da energia comum — o
-                que pode representar economia de até R$ <strong>150</strong> por
-                mês na sua conta de luz.
+              <h4 className="text-lg text-gray-300">
+                A energia solar corporativa pode reduzir até <strong>90%</strong> dos custos fixos com eletricidade e fortalecer a imagem sustentável da sua marca.
               </h4>
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row bg-slate-700 p-6 rounded-lg shadow">
+          {/* Ranking de estados */}
+          <div className="flex flex-col md:flex-row p-6 rounded-lg shadow transition-all duration-300 hover:shadow-accent-300/10">
             <div className="md:w-1/2">
               <h3 className="text-2xl font-bold text-white mb-4">
-                Top 10 Estados do Brasil com Maior Potencial de Geração Solar em 2025
+                Top 10 Estados do Brasil com Maior Potencial de Energia Solar e Mobilidade Elétrica em 2025
               </h3>
-              <ul className="list-disc pl-6 space-y-2 text-gray-300">
-                <li>1º) Minas Gerais: 1.730 MW</li>
+              <ul className="list-disc pl-6 space-y-2 text-gray-300 text-lg">
+                <li>1º) Minas Gerais: 1.730 MW instalados</li>
                 <li>2º) São Paulo: 1.323 MW</li>
                 <li>3º) Rio Grande do Sul: 1.170 MW</li>
                 <li>4º) Mato Grosso: 690 MW</li>
@@ -234,23 +235,17 @@ const CalculadoraPage: React.FC = () => {
                 <li>10º) Ceará: 398 MW</li>
               </ul>
             </div>
+
             <div className="md:w-1/2 md:pl-8">
-              <p className="text-base text-gray-300">
-                O potencial de geração solar varia significativamente entre as
-                cidades brasileiras e é influenciado por fatores como índice de
-                radiação solar, disponibilidade de áreas para instalação de
-                sistemas fotovoltaicos, políticas de incentivo e engajamento da
-                população com fontes renováveis. Cidades com maior capacidade
-                instalada de energia solar podem se tornar referências em
-                sustentabilidade e segurança energética, promovendo benefícios
-                como redução de custos com eletricidade, diminuição da
-                dependência de fontes poluentes e estímulo à economia verde.
-                Investir nesse potencial é essencial para uma transição
-                energética eficiente e descentralizada.
+              <p className="text-gray-300 text-lg mt-16">
+                O potencial de geração solar e expansão da mobilidade elétrica varia entre os estados brasileiros, influenciado por fatores como radiação solar, políticas de incentivo e infraestrutura de recarga.
+                Regiões com maior investimento em energia limpa e pontos de carregamento tendem a atrair mais negócios, reduzir custos logísticos e promover práticas ESG.
+                Investir agora posiciona sua empresa como protagonista da transição energética e da mobilidade sustentável no Brasil.
               </p>
             </div>
           </div>
         </div>
+
       )}
 
 
@@ -398,14 +393,14 @@ const CalculadoraPage: React.FC = () => {
           title="Resultado da Simulação"
         >
           <p className="text-black mb-1">
-            Com apenas {highlights(resultado.highlights.areaNeeded)} m² de área (de um total disponível de {highlights(resultado.highlights.roofUsable)} m²), você já consegue gerar {highlights(resultado.highlights.possibleMonthlySavings)} kWh/mês 
+            Com apenas {highlights(resultado.highlights.areaNeeded)} m² de área (de um total disponível de {highlights(resultado.highlights.roofUsable)} m²), você já consegue gerar {highlights(resultado.highlights.possibleMonthlySavings)} kWh/mês
             e economizar até R$ {highlights(resultado.highlights.possibleMonthlySavings)} por mês o que representa 100% da sua conta de luz.
             <br />
             Essa instalação utiliza apenas {highlights(resultado.highlights.usageNeededTotalPct)}% do seu telhado total (e {highlights(resultado.highlights.usageNeededUsablePct)}% da área disponível).
             <br />
             {resultado.highlights.roofUsable > resultado.highlights.areaNeeded && (
               <>
-                Se você quiser utilizar os {highlights(resultado.highlights.roofUsable)} m² inteiros disponíveis, seria possível gerar até aproximadamente {highlights(resultado.highlights.possibleGen)} kWh/mês, reduzindo sua conta em até {highlights(resultado.highlights.possiblePct)}% 
+                Se você quiser utilizar os {highlights(resultado.highlights.roofUsable)} m² inteiros disponíveis, seria possível gerar até aproximadamente {highlights(resultado.highlights.possibleGen)} kWh/mês, reduzindo sua conta em até {highlights(resultado.highlights.possiblePct)}%
                 e economizando até R$ {highlights(resultado.highlights.possibleGen)} por mês.
               </>
             )}

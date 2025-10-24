@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({ label, route, onClick }) => {
   return (
   <button
     onClick={handleClick}
-    className="bg-slate-700 hover:bg-slate-800 text-white font-semibold py-3 px-8 rounded-lg 
+    className="bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-8 rounded-lg 
     transition-all duration-300 ease-in-out transform hover:scale-105 
     shadow-lg hover:shadow-xl"
   >
