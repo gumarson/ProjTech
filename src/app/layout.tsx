@@ -9,7 +9,7 @@ import './global.css';
 const HomeLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang="pt-BR">
-      <body className="bg-sky-900">
+      <body className="bg-slate-900">
         <Header />
         <main className="container mx-auto p-4">
           {children}

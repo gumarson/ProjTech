@@ -18,7 +18,7 @@ export default function HelperTooltip({ id, text }: HelperTooltipProps) {
           cursor: 'pointer',
           borderRadius: '50%',
           padding: '0 6px',
-          backgroundColor: '#ccc',
+          backgroundColor: '#000',
           fontWeight: 'bold',
         }}
       >

@@ -4,9 +4,9 @@ import React from "react";
 
 const QuemSomos: React.FC = () => {
   return (
-    <div className="bg-blue-100 p-8">
-      <section className="bg-blue-200 p-8 my-4 rounded-lg shadow-md">
-        <h2 className="text-3xl font-bold text-blue-900 mb-4">Sobre nós</h2>
+    <div className="bg-slate-800 p-8">
+      <section className="bg-slate-500 p-8 my-4 rounded-lg shadow-md">
+        <h2 className="text-3xl font-bold text-white-900 mb-4">Sobre nós</h2>
         <p className="text-gray-700 leading-relaxed bg-white p-4 rounded-lg">
           Nossa história começou em 2024, quando um grupo de estudantes se uniu
           com o propósito de criar um projeto inovador voltado à
@@ -29,8 +29,8 @@ const QuemSomos: React.FC = () => {
         </p>
       </section>
 
-      <section className="bg-blue-300 p-8 my-4 rounded-lg shadow-md">
-        <h2 className="text-3xl font-bold text-blue-900 mb-4">Nossa missão</h2>
+      <section className="bg-slate-600 p-8 my-4 rounded-lg shadow-md">
+        <h2 className="text-3xl font-bold text-white-900 mb-4">Nossa missão</h2>
         <p className="text-gray-700 leading-relaxed bg-white p-4 rounded-lg">
           Nossa missão vai além de apenas oferecer uma plataforma de análise
           solar. Queremos incentivar a adoção da energia limpa e mostrar como
@@ -58,8 +58,8 @@ const QuemSomos: React.FC = () => {
         </p>
       </section>
 
-      <section className="bg-blue-400 p-8 my-4 rounded-lg shadow-md">
-        <h2 className="text-3xl font-bold text-blue-900 mb-4">
+      <section className="bg-slate-700 p-8 my-4 rounded-lg shadow-md">
+        <h2 className="text-3xl font-bold text-white-900 mb-4">
           Por que Analisar o Potencial Solar da sua Residência?{" "}
         </h2>
         <p className="text-gray-700 leading-relaxed bg-white p-4 rounded-lg">
