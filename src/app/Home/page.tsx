@@ -24,7 +24,7 @@ const Home: React.FC = () => {
       </section>
 
       <section className="p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10">
-        <h2 className="text-3xl font-bold text-white mb-6 border-b border-accent-400/30 pb-4">
+        <h2 className="text-3xl font-bold text-white mb-6 border-b border-blue-400/30 pb-4">
           Por que investir em energia sustentável para sua empresa?
         </h2>
 

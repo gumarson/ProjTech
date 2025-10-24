@@ -176,9 +176,9 @@ const CalculadoraPage: React.FC = () => {
       {activeTab === "CidadesPotencial" && (
         <div>
           {/* Simulação de economia corporativa */}
-          <div className="flex flex-col md:flex-row md:space-x-8 items-start p-6 rounded-lg shadow mb-8 transition-all duration-300 hover:shadow-accent-300/30">
+          <div className="flex flex-col md:flex-row md:space-x-8 items-start p-6 rounded-lg shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/30">
             <div className="md:w-1/2">
-              <h2 className="text-2xl font-semibold text-white mb-4">
+              <h2 className="text-2xl font-semibold text-white mb-4 border-accent-400/30 ">
                 Pronto para descobrir o quanto sua empresa pode economizar com energia solar?
               </h2>
               <p className="text-lg text-gray-300 mb-6">
@@ -217,7 +217,7 @@ const CalculadoraPage: React.FC = () => {
           </div>
 
           {/* Ranking de estados */}
-          <div className="flex flex-col md:flex-row p-6 rounded-lg shadow transition-all duration-300 hover:shadow-accent-300/10">
+          <div className="flex flex-col md:flex-row p-6 rounded-lg shadow-2xl transition-all duration-300 hover:shadow-accent-300/30">
             <div className="md:w-1/2">
               <h3 className="text-2xl font-bold text-white mb-4">
                 Top 10 Estados do Brasil com Maior Potencial de Energia Solar e Mobilidade Elétrica em 2025
@@ -237,9 +237,10 @@ const CalculadoraPage: React.FC = () => {
             </div>
 
             <div className="md:w-1/2 md:pl-8">
-              <p className="text-gray-300 text-lg mt-16">
+              <p className="text-gray-300 text-xl mt-28 ">
                 O potencial de geração solar e expansão da mobilidade elétrica varia entre os estados brasileiros, influenciado por fatores como radiação solar, políticas de incentivo e infraestrutura de recarga.
-                Regiões com maior investimento em energia limpa e pontos de carregamento tendem a atrair mais negócios, reduzir custos logísticos e promover práticas ESG.
+                Regiões com maior investimento em energia limpa e pontos de carregamento tendem a atrair mais negócios, reduzir custos logísticos e promover práticas ESG 
+                (do inglês: Environmental, Social and Governance ou: Ambiente, Social e governança).
                 Investir agora posiciona sua empresa como protagonista da transição energética e da mobilidade sustentável no Brasil.
               </p>
             </div>
