@@ -12,53 +12,78 @@ const Home: React.FC = () => {
   return (
     <div className="p-8">
 
-      <section className=" p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10">
-        <h2 className="text-3xl font-bold text-white mb-6 border-b border-blue-400/30 pb-4">
+      <section className="p-8 rounded-xl mb-8">
+        <h2 className="text-3xl font-bold text-white mb-6 text-center">
           Nossa Missão
         </h2>
-        <div className="">
-          <p className="text-gray-300 leading-relaxed  p-4 rounded-lg text-xl">
-            Reduza custos e impulsione seu negócio com energia solar e soluções de carregamento elétrico corporativo.
-          </p>
+        <p className="text-lg text-gray-300 leading-relaxed text-center max-w-4xl mx-auto mb-12">
+          Nossa missão é democratizar o acesso à energia limpa e à mobilidade elétrica para empresas em todo o Brasil. Acreditamos que a sustentabilidade é um pilar para o crescimento, por isso, oferecemos soluções inteligentes que reduzem custos, fortalecem a marca e preparam seu negócio para um futuro mais verde e competitivo.
+        </p>
+        <div className="flex flex-col lg:flex-row gap-8 mt-6">
+          {/* Coluna 1: Visão Geral */}
+          <div className="flex-1 p-6 rounded-lg">
+            <h3 className="text-xl font-bold text-white mb-3">Soluções Integradas</h3>
+            <p className="text-gray-300 leading-relaxed">
+              Nossa plataforma conecta empresas a um futuro mais verde e econômico. Facilitamos a transição para a energia solar e a implementação de infraestrutura de recarga para veículos elétricos, transformando sustentabilidade em um diferencial competitivo.
+            </p>
+          </div>
+
+          {/* Coluna 2: Energia Solar */}
+          <div className="flex-1 p-6 rounded-lg ">
+            <h3 className="text-xl font-bold text-white mb-3">Energia Solar para CNPJ</h3>
+            <p className="text-gray-300 leading-relaxed">
+              Oferecemos uma análise completa para a instalação de painéis solares em seu CNPJ. Reduza drasticamente seus custos com eletricidade, gere sua própria energia limpa e valorize seu imóvel com uma solução de alto retorno sobre o investimento.
+            </p>
+          </div>
+
+          {/* Coluna 3: Postos Elétricos */}
+          <div className="flex-1 p-6 rounded-lg">
+            <h3 className="text-xl font-bold text-white mb-3">Pontos de Recarga Elétrica</h3>
+            <p className="text-gray-300 leading-relaxed">
+              Prepare sua empresa para a revolução da mobilidade elétrica. Desenvolvemos e instalamos pontos de recarga para veículos elétricos, atraindo novos clientes e posicionando sua marca como líder em inovação e sustentabilidade.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section className="p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10">
-        <h2 className="text-3xl font-bold text-white mb-6 border-b border-blue-400/30 pb-4">
+      <section className="p-8 rounded-xl mb-8">
+        <h2 className="text-3xl font-bold text-white text-center mb-6 pb-4">
           Por que investir em energia sustentável para sua empresa?
         </h2>
 
-        <div className="flex flex-col lg:flex-row justify-center items-start gap-8">
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-12">
           {/* Gráficos lado a lado */}
-          <div className="flex-1 flex flex-col items-center">
+          <div className="w-full lg:w-1/2 flex flex-col items-center">
             <h3 className="text-white font-bold mb-2">
               Crescimento da Energia Solar Corporativa (2024–2025)
             </h3>
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-lg">
               <ChartComponent
                 series={[25, 75]}
                 labels={["Fontes Tradicionais", "Energia Solar Corporativa"]}
-                colors={["#FF0000", "#4c9c2e"]}
+                colors={["#475569", "#4ade80"]}
+                height={400}
               />
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col items-center">
+          <div className="w-full lg:w-1/2 flex flex-col items-center">
             <h3 className="text-white font-bold mb-2">
               Redução Média de Custos Empresariais (2024–2025)
             </h3>
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-lg">
               <ChartComponent
                 series={[20, 80]}
                 labels={["Custo Anterior", "Economia com Solar"]}
-                colors={["#FF0000", "#4c9c2e"]}
+                colors={["#475569", "#4ade80"]}
+                height={400}
               />
             </div>
           </div>
         </div>
 
         {/* Texto de benefícios embaixo */}
-        <div className="mt-10 p-4 rounded-lg shadow-md">
+        <div className="mt-10 p-4 rounded-lg">
           <h3 className="text-white font-bold mb-2">
             Benefícios de investir em energia solar e mobilidade elétrica corporativa
           </h3>
@@ -91,7 +116,7 @@ const Home: React.FC = () => {
       </section>
 
 
-      <section className=" p-8 rounded-xl shadow-2xl mb-8 transition-all duration-300 hover:shadow-accent-300/10 flex justify-center">
+      <section className=" p-8 rounded-xl mb-8 flex justify-center">
         <Button label="Faça o Teste Agora" route="/Calculadora" />
       </section>
 
