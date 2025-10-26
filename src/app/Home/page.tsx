@@ -22,7 +22,7 @@ const Home: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           {/* Coluna 1: Visão Geral */}
           <div className="flex-1 p-6 rounded-lg">
-            <h3 className="text-xl font-bold text-white mb-3">Soluções Integradas</h3>
+            <h3 className="text-2xl font-bold text-white mb-3">Soluções Integradas</h3>
             <p className="text-gray-300 leading-relaxed">
               Nossa plataforma conecta empresas a um futuro mais verde e econômico. Facilitamos a transição para a energia solar e a implementação de infraestrutura de recarga para veículos elétricos, transformando sustentabilidade em um diferencial competitivo.
             </p>
@@ -30,7 +30,7 @@ const Home: React.FC = () => {
 
           {/* Coluna 2: Energia Solar */}
           <div className="flex-1 p-6 rounded-lg ">
-            <h3 className="text-xl font-bold text-white mb-3">Energia Solar para CNPJ</h3>
+            <h3 className="text-2xl font-bold text-white mb-3">Energia Solar para CNPJ</h3>
             <p className="text-gray-300 leading-relaxed">
               Oferecemos uma análise completa para a instalação de painéis solares em seu CNPJ. Reduza drasticamente seus custos com eletricidade, gere sua própria energia limpa e valorize seu imóvel com uma solução de alto retorno sobre o investimento.
             </p>
@@ -38,13 +38,19 @@ const Home: React.FC = () => {
 
           {/* Coluna 3: Postos Elétricos */}
           <div className="flex-1 p-6 rounded-lg">
-            <h3 className="text-xl font-bold text-white mb-3">Pontos de Recarga Elétrica</h3>
+            <h3 className="text-2xl font-bold text-white mb-3">Pontos de Recarga Elétrica</h3>
             <p className="text-gray-300 leading-relaxed">
               Prepare sua empresa para a revolução da mobilidade elétrica. Desenvolvemos e instalamos pontos de recarga para veículos elétricos, atraindo novos clientes e posicionando sua marca como líder em inovação e sustentabilidade.
             </p>
           </div>
         </div>
       </section>
+
+       <section className=" p-8 rounded-xl mb-8 flex justify-center">
+        {/* <Button label="Faça o Teste Agora" route="/Calculadora" /> */}
+        <Button label="Faça o Teste Agora" route="Calculadora?openSearch=true"/>
+      </section>
+
 
       <section className="p-8 rounded-xl mb-8">
         <h2 className="text-3xl font-bold text-white text-center mb-6 pb-4">
@@ -54,28 +60,28 @@ const Home: React.FC = () => {
         <div className="flex flex-col lg:flex-row justify-center items-center gap-12">
           {/* Gráficos lado a lado */}
           <div className="w-full lg:w-1/2 flex flex-col items-center">
-            <h3 className="text-white font-bold mb-2">
+            <h3 className="text-white text-xl font-bold mb-2">
               Crescimento da Energia Solar Corporativa (2024–2025)
             </h3>
             <div className="w-full max-w-lg">
               <ChartComponent
                 series={[25, 75]}
                 labels={["Fontes Tradicionais", "Energia Solar Corporativa"]}
-                colors={["#475569", "#4ade80"]}
+                colors={["#475569", "#fbbf24"]}
                 height={400}
               />
             </div>
           </div>
 
           <div className="w-full lg:w-1/2 flex flex-col items-center">
-            <h3 className="text-white font-bold mb-2">
+            <h3 className="text-white text-xl font-bold mb-2">
               Redução Média de Custos Empresariais (2024–2025)
             </h3>
             <div className="w-full max-w-lg">
               <ChartComponent
                 series={[20, 80]}
                 labels={["Custo Anterior", "Economia com Solar"]}
-                colors={["#475569", "#4ade80"]}
+                colors={["#64748b", "#22d3ee"]}
                 height={400}
               />
             </div>
@@ -84,14 +90,14 @@ const Home: React.FC = () => {
 
         {/* Texto de benefícios embaixo */}
         <div className="mt-10 p-4 rounded-lg">
-          <h3 className="text-white font-bold mb-2">
+          <h3 className="text-white text-2xl font-bold mb-2">
             Benefícios de investir em energia solar e mobilidade elétrica corporativa
           </h3>
-          <p className="text-white">
+          <p className="text-white text-2xl">
             Empresas que adotam soluções sustentáveis não apenas reduzem custos operacionais,
             mas também fortalecem sua imagem de marca e se alinham às metas ESG (Environmental, Social and Governance).
           </p>
-          <ul className="text-white mt-2 list-disc list-inside text-lg">
+          <ul className="text-white mt-4 space-y-2 list-disc list-inside text-2xl">
             <li>
               <strong>Redução de custos fixos:</strong> Sistemas fotovoltaicos podem reduzir até 90% da conta de energia do seu CNPJ.
             </li>
@@ -109,15 +115,10 @@ const Home: React.FC = () => {
               <strong>Conformidade e sustentabilidade:</strong> Contribua para a redução de emissões de CO₂ e cumpra metas ambientais corporativas.
             </li>
           </ul>
-          <p className="mt-4 text-white">
+          <p className="mt-4 text-white text-2xl">
             Investir em energia solar e mobilidade elétrica é transformar sua empresa em referência de inovação, economia e responsabilidade ambiental.
           </p>
         </div>
-      </section>
-
-
-      <section className=" p-8 rounded-xl mb-8 flex justify-center">
-        <Button label="Faça o Teste Agora" route="/Calculadora" />
       </section>
 
     </div>
