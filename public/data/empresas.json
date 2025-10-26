@@ -1,0 +1,42 @@
+[
+  {
+    "nome": "Instaladora Solar Alfa",
+    "uf": "SP",
+    "tipo": "Instalador",
+    "lat": -23.550520,
+    "lon": -46.633308,
+    "rating": 4.8
+  },
+  {
+    "nome": "Eletricista Beta & Cia",
+    "uf": "SP",
+    "tipo": "Eletricista",
+    "lat": -23.561372,
+    "lon": -46.656493,
+    "rating": 4.5
+  },
+  {
+    "nome": "Soluções Elétricas Gama",
+    "uf": "RJ",
+    "tipo": "Instalador",
+    "lat": -22.906847,
+    "lon": -43.172897,
+    "rating": 4.9
+  },
+  {
+    "nome": "Energia Limpa Delta",
+    "uf": "MG",
+    "tipo": "Fornecedor",
+    "lat": -19.916681,
+    "lon": -43.934493,
+    "rating": 4.2
+  },
+  {
+    "nome": "Eletro-Técnica Jundiaí",
+    "uf": "SP",
+    "tipo": "Eletricista",
+    "lat": -23.18659,
+    "lon": -46.88443,
+    "rating": 5.0
+  }
+]
