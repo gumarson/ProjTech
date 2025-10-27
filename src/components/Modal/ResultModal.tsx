@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TechAba from '../Tabs/TechTab';
 import { Company } from '@/types/company';
 
@@ -29,7 +29,7 @@ type SolarCalcResult = {
     usageAvailableUsablePct: number;
     areaNeeded: number;
   }
-  evChargingCostEstimate?: number; // Custo estimado para o ponto elétrico
+  evChargingCostEstimate?: number; 
 };
 
 interface ResultModalProps {
@@ -37,11 +37,18 @@ interface ResultModalProps {
   onClose: () => void;
   solarCalcResult: SolarCalcResult | null;
   nearbyCompanies: Company[];
-  children?: React.ReactNode; // Para passar o CompanyList
+  children?: React.ReactNode; 
 }
 
 const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, solarCalcResult, nearbyCompanies, children }) => {
   const [activeTab, setActiveTab] = useState('economia'); 
+
+  // Efeito para resetar a aba para a inicial sempre que o modal for aberto
+  useEffect(() => {
+    if (isOpen) {
+      setActiveTab('economia');
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -90,7 +97,7 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, solarCalcRes
         );
       case 'fornecedores':
         return (
-          <div className="max-h-96 overflow-y-auto pr-2"> {/* Adicionado max-h-96 e overflow-y-auto */}
+          <div className="max-h-96 overflow-y-auto pr-2"> 
             <div>
               <p className="text-slate-300 mb-4">
                 Abaixo estão nossos parceiros recomendados.

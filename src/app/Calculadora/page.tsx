@@ -206,7 +206,7 @@ const CalculadoraPage: React.FC = () => {
             </div>
 
             <div className="mt-12 text-center">
-              <Button label="Calcular Potencial Solar" route="#" onClick={openInputModal} />
+              <Button label="Calcular Potencial Energético" route="#" onClick={openInputModal} />
             </div>
 
             <div className="mt-8 w-full max-w-lg">
@@ -266,7 +266,7 @@ const CalculadoraPage: React.FC = () => {
         title="Calcule o potencial energético da sua empresa"
       >
         <div className="space-y-2">
-          <p className="text-slate-300 mb-4">Preencha os dados para simular seu potencial solar e encontrar fornecedores.</p>
+          <p className="text-slate-300 mb-4">Preencha os dados para simular seu potencial energético e encontrar fornecedores.</p>
           <TechInput
             label="CEP"
             type="text"
