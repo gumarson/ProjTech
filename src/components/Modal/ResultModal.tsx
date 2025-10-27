@@ -90,13 +90,15 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, solarCalcRes
         );
       case 'fornecedores':
         return (
-          <div>
-            <p className="text-slate-300 mb-4">
-              Abaixo estão nossos parceiros recomendados.
-              <br /><br />
-              <span className="text-sm text-green-400">*Todas as empresas listadas realizam tanto a instalação de painéis solares quanto de pontos de recarga para veículos elétricos.</span>
-            </p>
-            {children}
+          <div className="max-h-96 overflow-y-auto pr-2"> {/* Adicionado max-h-96 e overflow-y-auto */}
+            <div>
+              <p className="text-slate-300 mb-4">
+                Abaixo estão nossos parceiros recomendados.
+                <br /><br />
+                <span className="text-sm text-green-400">*Todas as empresas listadas realizam tanto a instalação de painéis solares quanto de pontos de recarga para veículos elétricos.</span>
+              </p>
+              {children}
+            </div>
           </div>
         );
       default:
