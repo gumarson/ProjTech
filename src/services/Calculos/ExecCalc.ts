@@ -76,6 +76,12 @@ Se você utilizar toda a área disponível (${highlights.roofUsable} m²), seria
 
   const msg3 = `Este resultado é possível devido à área mínima de ${highlights.areaNeeded} m² fornecida.`;
 
+  // Custo estimado para o ponto elétrico (dinâmico)
+  // Fórmula de exemplo: Custo base + um valor por kWp do sistema
+  const baseEvCost = 4500; // Custo base para instalação de um ponto
+  const costPerKWp = 1200; // Custo adicional por kWp do sistema solar (para infraestrutura, etc.)
+  const evChargingCostEstimate = baseEvCost + (savings.sysKWp * costPerKWp);
+
   return {
     irradiance,
     sysKWp: +savings.sysKWp.toPrecision(2),
@@ -91,6 +97,7 @@ Se você utilizar toda a área disponível (${highlights.roofUsable} m²), seria
     msg,
     msg2,
     msg3,
-    highlights
+    highlights,
+    evChargingCostEstimate: +evChargingCostEstimate.toFixed(2),
   };
 }

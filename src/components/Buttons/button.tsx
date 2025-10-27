@@ -7,9 +7,10 @@ interface ButtonProps {
   label: string;
   route?: string; // Tornando o `route` opcional
   onClick?: () => void; // Adicionando a prop `onClick`
+  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, route, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ label, route, onClick, disabled }) => {
   const router = useRouter();
 
   const handleClick = () => {

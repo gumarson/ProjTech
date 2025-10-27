@@ -1,19 +1,23 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import Button from "@/components/Buttons/button";
 import TechAba from "@/components/Tabs/TechTab";
 import Modal from "@/components/Modal/modal";
+import ResultModal from "@/components/Modal/ResultModal";
+import { useSearchParams } from "next/navigation";
 import TechInput from "@/components/TechInput/page";
-import { getAddressByCep } from "@/services/viaCepService";
 import { Company } from "@/types/company";
-import { haversineDistance } from "@/utils/distance";
 import CompanyList from "@/components/CompanyList/CompanyList";
+import { simuladorSchema } from "@/schemas/formSchema";
+import { calcSolarPotential } from "@/services/Calculos/prepCalc";
+import { getAddressByCep } from "@/services/viaCepService";
+import { haversineDistance } from "@/utils/distance";
 
-// Chave da API OpenCage - Substitua pela sua chave
 const OPENCAGE_API_KEY = "9c11e6ea220c4bd6979ba6846e82ce81";
+
+
 
 type SolarCalcResult = {
   irradiance: number;
@@ -40,105 +44,131 @@ type SolarCalcResult = {
     usageAvailableUsablePct: number;
     areaNeeded: number;
   }
+  // Added for EV charging cost estimation
+  evChargingCostEstimate: number;
 };
 
 const NivoBarChart = dynamic(
   () => import("@/components/Charts/NivoSolarBarChart"),
   {
-    ssr: false, // This ensures the ChartComponent is only loaded on the client
+    ssr: false,
   }
 );
 
 const CalculadoraPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("CidadesPotencial");
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState("CidadesPotencial");
+
+  // Estados para os dois modais
+  const [isInputModalOpen, setIsInputModalOpen] = useState(false);
   const [isResultModalOpen, setIsResultModalOpen] = useState(false);
+
   const [cep, setCep] = useState("");
+  const [consumoMensal, setConsumoMensal] = useState("");
+  const [areaTelhado, setAreaTelhado] = useState("");
+  const [areaUtil, setAreaUtil] = useState("");
+  const [solarCalcResult, setSolarCalcResult] = useState<SolarCalcResult | null>(null);
+  const [nearbyCompanies, setNearbyCompanies] = useState<Company[]>([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [nearbyCompanies, setNearbyCompanies] = useState<Company[]>([]);
+  const [errors, setErrors] = useState<Record<string, string | undefined>>({});
 
   const handleTabChange = (tabKey: string) => {
     setActiveTab(tabKey);
   }
 
-  const toggleModal = () => {
-    setIsSearchModalOpen(!isSearchModalOpen);
-    setCep("");
-    setError(null);
+  // Abre o modal de input
+  const openInputModal = () => {
+    setIsInputModalOpen(true);
   };
 
-  function highlights(value: React.ReactNode) {
-    return <span className="font-bold italic underline text-black">{value}</span>;
-  }
+  // Fecha todos os modais e reseta os estados
+  const closeAllModals = () => {
+    setIsInputModalOpen(false);
+    setIsResultModalOpen(false);
+    // Resetar estados para uma nova simulação
+    setCep("");
+    setConsumoMensal("");
+    setAreaTelhado("");
+    setAreaUtil("");
+    setSolarCalcResult(null);
+    setNearbyCompanies([]);
+    setError(null);
+    setErrors({}); 
+    setIsLoading(false);
+  };
 
-  useEffect(() => {
-    // Limpa o erro quando o usuário começa a digitar novamente
-    if (cep.length > 0) setError(null);
-  }, [cep])
-
-  // Abre o modal de busca se a URL contiver ?openSearch=true
   useEffect(() => {
     if (searchParams && searchParams.get("openSearch") === "true") {
-      setIsSearchModalOpen(true);
+      setIsInputModalOpen(true);
     }
   }, [searchParams]);
 
-  const handleSearchCompanies = async () => {
-    if (cep.length !== 8 || !/^\d+$/.test(cep)) {
-      setError("CEP inválido. Digite 8 números.");
+  const handleCalcular = async () => {
+  
+    const formData = {
+      cep,
+      consumoMensal,
+      areaTelhado,     
+      areaUtil,
+    };
+
+    const result = simuladorSchema.safeParse(formData);
+    
+
+    // Validação com Zod
+    const validationResult = simuladorSchema.safeParse(formData);
+
+    if (!validationResult.success) {
+      const newErrors: Record<string, string | undefined> = {};
+      validationResult.error.errors.forEach(err => {
+        if (err.path[0]) {
+          newErrors[err.path[0]] = err.message;
+        }
+      });
+      setErrors(newErrors);
       return;
     }
 
     setIsLoading(true);
     setError(null);
+    setErrors({});
 
     try {
-      // 1. Buscar endereço pelo ViaCEP
-      const address = await getAddressByCep(cep);
-      if (!address || !address.logradouro) {
-        throw new Error("CEP não encontrado ou inválido.");
-      }
+      // 1. Executa o cálculo do potencial solar
+      const calcResult = await calcSolarPotential(cep, Number(result.data?.consumoMensal), Number(result.data?.areaUtil), Number(result.data?.areaTelhado));
+      setSolarCalcResult(calcResult);
 
-      // 2. Buscar coordenadas pela OpenCage
+      // 2. Busca fornecedores
+      const address = await getAddressByCep(cep);
+      if (!address || !address.logradouro) throw new Error("Endereço do CEP não encontrado.");
       const query = `${address.logradouro}, ${address.localidade}, ${address.uf}, Brasil`;
       const opencageUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=${OPENCAGE_API_KEY}`;
       const geoResponse = await fetch(opencageUrl);
       const geoData = await geoResponse.json();
-
-      if (!geoData.results || geoData.results.length === 0) {
-        throw new Error("Não foi possível encontrar as coordenadas para este CEP.");
-      }
+      if (!geoData.results || geoData.results.length === 0) throw new Error("Coordenadas não encontradas para o CEP.");
       const { lat: userLat, lng: userLon } = geoData.results[0].geometry;
 
-      // 3. Carregar empresas do JSON local
       const companiesResponse = await fetch('/data/empresas.json');
       const companies: Company[] = await companiesResponse.json();
-
-      // 4. Calcular distância e ordenar
       const companiesWithDistance = companies.map(company => ({
         ...company,
         distance: haversineDistance(userLat, userLon, company.lat, company.lon),
-      }));
+      })).sort((a, b) => a.distance! - b.distance!);
+      setNearbyCompanies(companiesWithDistance.slice(0, 10));
 
-      companiesWithDistance.sort((a, b) => {
-        if (a.distance! < b.distance!) return -1;
-        if (a.distance! > b.distance!) return 1;
-        return b.rating - a.rating; // Se a distância for igual, ordena por rating
-      });
+      // 3. Fecha o modal de input e abre o de resultado
+      setIsInputModalOpen(false);
+      setIsResultModalOpen(true);
 
-      setNearbyCompanies(companiesWithDistance.slice(0, 10)); // Pega as 10 mais próximas
-      setIsSearchModalOpen(false); // Fecha o modal de busca
-      setIsResultModalOpen(true); // Abre o modal de resultados
-
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Ocorreu um erro desconhecido.");
+    } catch (err) {
+      // Usamos 'errors.general' para erros que não são de campo específico
+      setErrors({ general: err instanceof Error ? err.message : "Ocorreu um erro desconhecido ao calcular ou buscar fornecedores." });
     } finally {
       setIsLoading(false);
     }
   };
-
 
   return (
     <div className="p-8  rounded-lg max-w-5xl mx-auto">
@@ -174,9 +204,9 @@ const CalculadoraPage: React.FC = () => {
                 Comece agora e veja como a energia solar pode transformar o desempenho energético e sustentável da sua empresa.
               </p>
             </div>
-          
+
             <div className="mt-12 text-center">
-              <Button label="Encontrar Empresas Próximas" route="#" onClick={toggleModal} />
+              <Button label="Calcular Potencial Solar" route="#" onClick={openInputModal} />
             </div>
 
             <div className="mt-8 w-full max-w-lg">
@@ -229,40 +259,72 @@ const CalculadoraPage: React.FC = () => {
 
       )}
 
-      {/* Modal para Inserir o CEP */}
+      {/* Modal 1: Entrada de Dados */}
       <Modal
-        isOpen={isSearchModalOpen}
-        onClose={toggleModal}
-        title="Encontrar Empresas de Energia Solar"
+        isOpen={isInputModalOpen}
+        onClose={closeAllModals}
+        title="Calcule o potencial energético da sua empresa"
       >
-        <p className="text-white mb-4">Digite seu CEP para encontrar os melhores instaladores e eletricistas perto de você.</p>
-        <TechInput
-          label="CEP"
-          type="text"
-          value={cep}
-          onChange={(e) => setCep(e.target.value.replace(/\D/g, ''))} // Permite apenas números
-          placeholder="Apenas números"
-          maxLength={8}
-          error={!!error}
-          errorMessage={error || ""}
-        />
+        <div className="space-y-2">
+          <p className="text-slate-300 mb-4">Preencha os dados para simular seu potencial solar e encontrar fornecedores.</p>
+          <TechInput
+            label="CEP"
+            type="text"
+            value={cep}
+            onChange={(e) => setCep(e.target.value.replace(/\D/g, ''))} 
+            placeholder="Apenas números"
+            maxLength={8}
+            error={!!errors.cep}
+            errorMessage={errors.cep}
+          />
+          <TechInput
+            label="Consumo mensal (kWh)"
+            type="number" 
+            value={consumoMensal}
+            onChange={(e) => setConsumoMensal(e.target.value)}
+            placeholder="Ex: 500"
+            error={!!errors.consumoMensal}
+            errorMessage={errors.consumoMensal}
+          />
+          <TechInput
+            label="Área do telhado (m²)"
+            type="number"
+            value={areaTelhado}
+            onChange={(e) => setAreaTelhado(e.target.value)}
+            placeholder="Ex: 100"
+            error={!!errors.areaTelhado}
+            errorMessage={errors.areaTelhado}
+          />
+          <TechInput
+            label="Área útil do telhado (m²)"
+            type="number"
+            value={areaUtil}
+            onChange={(e) => setAreaUtil(e.target.value)}
+            placeholder="Ex: 70"
+            error={!!errors.areaUtil}
+            errorMessage={errors.areaUtil}
+          />
+        </div>
+        {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
+        {errors.general && <p className="mt-4 text-sm text-red-500">{errors.general}</p>}
         <div className="mt-6 text-right">
-          <Button label={isLoading ? "Buscando..." : "Buscar"} route="#" onClick={handleSearchCompanies} disabled={isLoading} />
+          <button onClick={handleCalcular} disabled={isLoading} className={`px-6 py-3 rounded-lg text-white font-bold transition-colors duration-300 ${isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'}`}>
+            {isLoading ? "Calculando..." : "Calcular e Ver Resultados"}
+          </button>
         </div>
       </Modal>
+      {/* Modal 2: Resultados com Abas */}
+      <ResultModal
+        isOpen={isResultModalOpen}
+        onClose={closeAllModals}
+        solarCalcResult={solarCalcResult}
+        nearbyCompanies={nearbyCompanies}
+      >
+        <CompanyList companies={nearbyCompanies} />
+      </ResultModal>
 
-      {/* Modal para Exibir os Resultados */}
-      {isResultModalOpen && (
-        <Modal
-          isOpen={isResultModalOpen}
-          onClose={() => setIsResultModalOpen(false)}
-          title={`Empresas Próximas ao CEP ${cep}`}
-        >
-          <CompanyList companies={nearbyCompanies} />
-        </Modal>
-      )}
     </div>
   );
-};
+}
 
 export default CalculadoraPage;

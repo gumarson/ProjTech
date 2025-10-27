@@ -30,9 +30,9 @@ const Home: React.FC = () => {
 
           {/* Coluna 2: Energia Solar */}
           <div className="flex-1 p-6 rounded-lg ">
-            <h3 className="text-2xl font-bold text-white mb-3">Energia Solar para CNPJ</h3>
+            <h3 className="text-2xl font-bold text-white mb-3">Energia Solar para empresas</h3>
             <p className="text-gray-300 leading-relaxed">
-              Oferecemos uma análise completa para a instalação de painéis solares em seu CNPJ. Reduza drasticamente seus custos com eletricidade, gere sua própria energia limpa e valorize seu imóvel com uma solução de alto retorno sobre o investimento.
+              Oferecemos uma análise completa para a instalação de painéis solares em sua empresa. Reduza drasticamente seus custos com eletricidade, gere sua própria energia limpa e valorize seu imóvel com uma solução de alto retorno sobre o investimento.
             </p>
           </div>
 
@@ -45,12 +45,6 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
-
-       <section className=" p-8 rounded-xl mb-8 flex justify-center">
-        {/* <Button label="Faça o Teste Agora" route="/Calculadora" /> */}
-        <Button label="Faça o Teste Agora" route="Calculadora?openSearch=true"/>
-      </section>
-
 
       <section className="p-8 rounded-xl mb-8">
         <h2 className="text-3xl font-bold text-white text-center mb-6 pb-4">
@@ -99,7 +93,7 @@ const Home: React.FC = () => {
           </p>
           <ul className="text-white mt-4 space-y-2 list-disc list-inside text-2xl">
             <li>
-              <strong>Redução de custos fixos:</strong> Sistemas fotovoltaicos podem reduzir até 90% da conta de energia do seu CNPJ.
+              <strong>Redução de custos fixos:</strong> Sistemas fotovoltaicos podem reduzir até 90% da conta de energia da.
             </li>
             <li>
               <strong>Retorno sobre o investimento:</strong> Payback médio entre 3 e 5 anos, com painéis de alta durabilidade (25+ anos).
@@ -119,6 +113,10 @@ const Home: React.FC = () => {
             Investir em energia solar e mobilidade elétrica é transformar sua empresa em referência de inovação, economia e responsabilidade ambiental.
           </p>
         </div>
+      </section>
+    
+       <section className=" p-8 rounded-xl mb-8 flex justify-center">
+        <Button label="Faça o Teste Agora" route="Calculadora?openSearch=true"/>
       </section>
 
     </div>

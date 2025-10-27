@@ -13,6 +13,7 @@ interface TechInputProps {
   error?: boolean | string;
   errorMessage?: string;
   maxLength?: number; // Adicionado para permitir limitar o tamanho do input
+  className?: string;
 }
 
 const TechInput: React.FC<TechInputProps> = ({
@@ -27,6 +28,7 @@ const TechInput: React.FC<TechInputProps> = ({
   error,
   errorMessage,
   maxLength,
+  className
 }) => {
   return (
    <div className="mb-4">

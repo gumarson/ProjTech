@@ -18,7 +18,7 @@ const QuemSomos: React.FC = () => {
           especializada em soluções sustentáveis para o mercado corporativo.
           <br />
           <br />
-          Hoje, oferecemos não apenas a implantação de painéis solares para CNPJs,
+          Hoje, oferecemos não apenas a implantação de painéis solares para e,
           mas também desenvolvemos infraestrutura de pontos de carregamento
           elétrico para veículos, promovendo a mobilidade sustentável e preparando
           empresas para o futuro da eletrificação. Nossa equipe multidisciplinar
