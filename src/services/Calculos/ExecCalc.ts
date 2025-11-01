@@ -70,12 +70,6 @@ Essa instalação ocupa ${highlights.usageNeededTotalPct}% do seu telhado total 
 
 Se você utilizar toda a área disponível (${highlights.roofUsable} m²), seria possível gerar até aproximadamente ${highlights.possibleGen} kWh/mês, que corresponde a ${highlights.possiblePct}% da sua conta de luz.`;
 
-  const msg2 = roofUsable >= savings.areaNeeded
-    ? "Sua área disponível é suficiente para alcançar 100% de economia na sua conta de luz com energia solar."
-    : `Para alcançar 100% de economia, você precisaria de aproximadamente ${highlights.areaNeeded} m² de telhado para painéis solares.`;
-
-  const msg3 = `Este resultado é possível devido à área mínima de ${highlights.areaNeeded} m² fornecida.`;
-
   // Custo estimado para o ponto elétrico (dinâmico)
   // Fórmula de exemplo: Custo base + um valor por kWp do sistema
   const baseEvCost = 4500; // Custo base para instalação de um ponto
@@ -95,8 +89,6 @@ Se você utilizar toda a área disponível (${highlights.roofUsable} m²), seria
     totalPct: usageNeeded.totalPct,
     possiblePct,
     msg,
-    msg2,
-    msg3,
     highlights,
     evChargingCostEstimate: +evChargingCostEstimate.toFixed(2),
   };

@@ -16,8 +16,6 @@ type SolarCalcResult = {
   usablePct: number;
   totalPct: number;
   msg: string;
-  msg2: string;
-  msg3: string;
   highlights: {
     roofUsable: number;
     possibleGen: number;
@@ -73,7 +71,16 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, solarCalcRes
                   <li><strong>Área Necessária para Painéis:</strong> <span className="font-bold">{solarCalcResult.highlights.areaNeeded.toFixed(1)} m²</span></li>
                   <li><strong>Quantidade de Painéis:</strong> <span className="font-bold">{solarCalcResult.panelCount}</span></li>
                 </ul>
-                <p className="pt-2">{solarCalcResult.msg2}</p>
+          
+                {solarCalcResult.enoughArea ? (
+                  <p className="pt-2 text-green-400">
+                    Sua área disponível é suficiente para alcançar 100% de economia na sua conta de luz com energia solar.
+                  </p>
+                ) : (
+                  <p className="pt-2 text-amber-400">
+                    Para alcançar 100% de economia, você precisaria de aproximadamente {solarCalcResult.highlights.areaNeeded.toFixed(1)} m² de telhado para painéis solares.
+                  </p>
+                )}
               </div>
             ) : (
               <p className="text-slate-400">Nenhum resultado de cálculo disponível. Por favor, preencha os dados no modal anterior.</p>

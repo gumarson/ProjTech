@@ -6,8 +6,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ResultCard } from './ResultCard';
 
-// O tipo SolarCalcResult deve ser o mesmo usado na CalculadoraPage
 type SolarCalcResult = {
+  cep: string;
   irradiance: number;
   sysKWp: number;
   panelCount: number;
@@ -19,6 +19,8 @@ type SolarCalcResult = {
   usablePct: number;
   totalPct: number;
   msg: string;
+  msg2: string;
+  msg3: string;
   highlights: {
     roofUsable: number;
     possibleGen: number;

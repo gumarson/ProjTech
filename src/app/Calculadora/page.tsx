@@ -13,13 +13,12 @@ import { simuladorSchema } from "@/schemas/formSchema";
 import { calcSolarPotential } from "@/services/Calculos/prepCalc";
 import { getAddressByCep } from "@/services/viaCepService";
 import { haversineDistance } from "@/utils/distance";
-import { ResultsCarousel } from '@/components/ImageSlider/ResultsCarousel'; // Importa o novo carrossel
+import { ResultsCarousel } from '@/components/ImageSlider/ResultsCarousel';
 
 const OPENCAGE_API_KEY = "9c11e6ea220c4bd6979ba6846e82ce81";
 
-
-
 type SolarCalcResult = {
+  cep: string; // Adicionado para rastrear o CEP de cada cálculo
   irradiance: number;
   sysKWp: number;
   panelCount: number;
@@ -31,8 +30,6 @@ type SolarCalcResult = {
   usablePct: number;
   totalPct: number;
   msg: string;
-  msg2: string;
-  msg3: string;
   highlights: {
     roofUsable: number;
     possibleGen: number;
@@ -72,7 +69,6 @@ const CalculadoraPage: React.FC = () => {
     setActiveTab(tabKey);
   }
 
-  // Abre o modal de input
   const openInputModal = () => {
     setIsInputModalOpen(true);
   };
@@ -169,12 +165,13 @@ const CalculadoraPage: React.FC = () => {
 
     try {
       // 1. Executa o cálculo do potencial solar
-      const calcResult = await calcSolarPotential(cep, Number(result.data?.consumoMensal), Number(result.data?.areaUtil), Number(result.data?.areaTelhado));
-      setSolarCalcResult(calcResult);
+      const rawCalcResult = await calcSolarPotential(cep, Number(result.data?.consumoMensal), Number(result.data?.areaUtil), Number(result.data?.areaTelhado));
+      const finalCalcResult = { ...rawCalcResult, cep: validationResult.data.cep }; // Adiciona o CEP ao objeto de resultado
+      setSolarCalcResult(finalCalcResult);
 
       // Adiciona o resultado ao histórico (os mais recentes primeiro)
       setCalculationHistory(prevHistory => {
-        return [calcResult, ...prevHistory].slice(0, 10); // Mantém apenas os 10 últimos
+        return [finalCalcResult, ...prevHistory].slice(0, 10); // Mantém apenas os 10 últimos
       });
 
       // 2. Busca fornecedores
@@ -315,6 +312,8 @@ const CalculadoraPage: React.FC = () => {
             maxLength={8}
             error={!!errors.cep}
             errorMessage={errors.cep}
+            helperText='Insira seu CEP'
+            helperId='cepId'
           />
           <TechInput
             label="Consumo mensal (kWh)"
@@ -324,6 +323,8 @@ const CalculadoraPage: React.FC = () => {
             placeholder="Ex: 500"
             error={!!errors.consumoMensal}
             errorMessage={errors.consumoMensal}
+            helperText='Insira seu consumo mensal em KW/h'
+            helperId='consumoMensalId'
           />
           <TechInput
             label="Área do telhado (m²)"
@@ -333,6 +334,8 @@ const CalculadoraPage: React.FC = () => {
             placeholder="Ex: 100"
             error={!!errors.areaTelhado}
             errorMessage={errors.areaTelhado}
+            helperText='Insira a área do seu telhado'
+            helperId='areaTelhadoId'
           />
           <TechInput
             label="Área útil do telhado (m²)"
@@ -342,6 +345,8 @@ const CalculadoraPage: React.FC = () => {
             placeholder="Ex: 70"
             error={!!errors.areaUtil}
             errorMessage={errors.areaUtil}
+            helperText='Insira a área útil do telhado'
+            helperId='areaUtilId'
           />
         </div>
         {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
