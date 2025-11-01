@@ -55,12 +55,12 @@ const Home: React.FC = () => {
           {/* Gráficos lado a lado */}
           <div className="w-full lg:w-1/2 flex flex-col items-center">
             <h3 className="text-white text-xl font-bold mb-2">
-              Crescimento da Energia Solar Corporativa (2024–2025)
+             Crescimento da Geração de Energia Solar - Brasil (2023–2025)
             </h3>
             <div className="w-full max-w-lg">
               <ChartComponent
-                series={[25, 75]}
-                labels={["Fontes Tradicionais", "Energia Solar Corporativa"]}
+                series={[61, 39]}
+                labels={["Outras Fontes", "Crescimento Solar"]}
                 colors={["#475569", "#fbbf24"]}
                 height={400}
               />

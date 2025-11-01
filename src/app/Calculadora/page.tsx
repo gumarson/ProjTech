@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import React, { useState, useEffect } from 'react';
 import Button from "@/components/Buttons/button";
 import TechAba from "@/components/Tabs/TechTab";
 import Modal from "@/components/Modal/modal";
@@ -14,6 +13,7 @@ import { simuladorSchema } from "@/schemas/formSchema";
 import { calcSolarPotential } from "@/services/Calculos/prepCalc";
 import { getAddressByCep } from "@/services/viaCepService";
 import { haversineDistance } from "@/utils/distance";
+import { ResultsCarousel } from '@/components/ImageSlider/ResultsCarousel'; // Importa o novo carrossel
 
 const OPENCAGE_API_KEY = "9c11e6ea220c4bd6979ba6846e82ce81";
 
@@ -48,13 +48,6 @@ type SolarCalcResult = {
   evChargingCostEstimate: number;
 };
 
-const NivoBarChart = dynamic(
-  () => import("@/components/Charts/NivoSolarBarChart"),
-  {
-    ssr: false,
-  }
-);
-
 const CalculadoraPage: React.FC = () => {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("CidadesPotencial");
@@ -69,6 +62,7 @@ const CalculadoraPage: React.FC = () => {
   const [areaUtil, setAreaUtil] = useState("");
   const [solarCalcResult, setSolarCalcResult] = useState<SolarCalcResult | null>(null);
   const [nearbyCompanies, setNearbyCompanies] = useState<Company[]>([]);
+  const [calculationHistory, setCalculationHistory] = useState<SolarCalcResult[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -105,6 +99,44 @@ const CalculadoraPage: React.FC = () => {
     }
   }, [searchParams]);
 
+  // Carrega o histórico do localStorage quando o componente é montado
+  useEffect(() => {
+    const storedHistory = localStorage.getItem('calculationHistory');
+    if (storedHistory) {
+      setCalculationHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  // Salva o histórico no localStorage sempre que ele for atualizado
+  useEffect(() => {
+    if (calculationHistory.length > 0) {
+      localStorage.setItem('calculationHistory', JSON.stringify(calculationHistory));
+    }
+  }, [calculationHistory]);
+
+  // Efeito para travar a rolagem do fundo quando um modal está aberto
+  useEffect(() => {
+    const body = document.body;
+    if (isInputModalOpen || isResultModalOpen) {
+      body.style.overflow = 'hidden';
+    } else {
+      body.style.overflow = 'auto';
+    }
+
+    // Função de limpeza para garantir que a rolagem seja reativada
+    return () => {
+      body.style.overflow = 'auto';
+    };
+  }, [isInputModalOpen, isResultModalOpen]);
+
+  // Efeito para limpar o histórico do localStorage ao fechar/recarregar a página
+  useEffect(() => {
+    const handleBeforeUnload = () => localStorage.removeItem('calculationHistory');
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
+
   const handleCalcular = async () => {
   
     const formData = {
@@ -140,6 +172,11 @@ const CalculadoraPage: React.FC = () => {
       const calcResult = await calcSolarPotential(cep, Number(result.data?.consumoMensal), Number(result.data?.areaUtil), Number(result.data?.areaTelhado));
       setSolarCalcResult(calcResult);
 
+      // Adiciona o resultado ao histórico (os mais recentes primeiro)
+      setCalculationHistory(prevHistory => {
+        return [calcResult, ...prevHistory].slice(0, 10); // Mantém apenas os 10 últimos
+      });
+
       // 2. Busca fornecedores
       const address = await getAddressByCep(cep);
       if (!address || !address.logradouro) throw new Error("Endereço do CEP não encontrado.");
@@ -151,8 +188,18 @@ const CalculadoraPage: React.FC = () => {
       const { lat: userLat, lng: userLon } = geoData.results[0].geometry;
 
       const companiesResponse = await fetch('/data/empresas.json');
-      const companies: Company[] = await companiesResponse.json();
-      const companiesWithDistance = companies.map(company => ({
+      const allCompanies: Company[] = await companiesResponse.json();
+
+      // 1. Filtra empresas pelo mesmo estado (UF) do usuário
+      const companiesInSameState = allCompanies.filter(company => company.uf === address.uf);
+
+      // Se não houver empresas no estado, podemos ter uma lógica de fallback (opcional, por enquanto mostramos uma lista vazia)
+      if (companiesInSameState.length === 0) {
+        console.warn(`Nenhuma empresa encontrada para o estado: ${address.uf}`);
+      }
+
+      // 2. Calcula a distância e ordena apenas as empresas do mesmo estado
+      const companiesWithDistance = companiesInSameState.map(company => ({
         ...company,
         distance: haversineDistance(userLat, userLon, company.lat, company.lon),
       })).sort((a, b) => a.distance! - b.distance!);
@@ -209,26 +256,18 @@ const CalculadoraPage: React.FC = () => {
               <Button label="Calcular Potencial Energético" route="#" onClick={openInputModal} />
             </div>
 
-            <div className="mt-8 w-full max-w-lg">
-              <NivoBarChart
-                data={[
-                  { Energia: "Energia Solar", solar: 80, comum: 0 },
-                  { Energia: "Convencional", solar: 0, comum: 20 },
-                ]}
-                keys={["solar", "comum"]}
-                indexBy="Energia"
-                layout="horizontal"
-                margin={{ top: 20, right: 20, bottom: 50, left: 80 }} // Aumenta o espaço à esquerda
-                colors={["#22d3ee", "#64748b"]}
-                tooltipFormatter={(id, value, indexValue) =>
-                  `${indexValue}: ${value}% de eficiência energética`
-                }
-              />
-              <h4 className="text-lg text-gray-300">
-                A energia solar corporativa pode reduzir até <strong>90%</strong> dos custos fixos com eletricidade e fortalecer a imagem sustentável da sua marca.
-              </h4>
+            {/* Seção do Carrossel de Resultados */}
+            {calculationHistory.length > 0 && (
+              <div className="mt-16 w-full">
+                <h3 className="text-2xl font-bold text-white mb-6 text-center">
+                  Seus Cálculos Recentes
+                </h3>
+                <div className="max-w-5xl mx-auto">
+                  <ResultsCarousel history={calculationHistory} />
+                </div>
+              </div>
+            )}
             </div>
-          </div>
 
           {/* Ranking de estados */}
           <div className="flex flex-col items-center p-6 rounded-lg">
