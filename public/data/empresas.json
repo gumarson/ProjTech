@@ -1,0 +1,221 @@
+[
+  {
+    "nome": "Instaladora Solar Alfa",
+    "uf": "SP",
+    "tipo": "Instalador",
+    "lat": -23.55052,
+    "lon": -46.633308,
+    "rating": 4.8
+  },
+  {
+    "nome": "Eletricista Beta & Cia",
+    "uf": "SP",
+    "tipo": "Eletricista",
+    "lat": -23.561372,
+    "lon": -46.656493,
+    "rating": 4.5
+  },
+  {
+    "nome": "Soluções Elétricas Gama",
+    "uf": "RJ",
+    "tipo": "Instalador",
+    "lat": -22.906847,
+    "lon": -43.172897,
+    "rating": 4.9
+  },
+  {
+    "nome": "Energia Limpa Delta",
+    "uf": "MG",
+    "tipo": "Fornecedor",
+    "lat": -19.916681,
+    "lon": -43.934493,
+    "rating": 4.2
+  },
+  {
+    "nome": "Eletro-Técnica Jundiaí",
+    "uf": "SP",
+    "tipo": "Eletricista",
+    "lat": -23.18659,
+    "lon": -46.88443,
+    "rating": 5.0
+  },
+
+  {
+    "nome": "SP Volt Engenharia",
+    "uf": "SP",
+    "tipo": "Engenharia Elétrica",
+    "lat": -23.56073,
+    "lon": -46.654245,
+    "rating": 4.3
+  },
+  {
+    "nome": "Carga Rápida Paulista",
+    "uf": "SP",
+    "tipo": "Instalador EV",
+    "lat": -23.57212,
+    "lon": -46.64105,
+    "rating": 4.6
+  },
+  {
+    "nome": "Energize São Paulo",
+    "uf": "SP",
+    "tipo": "Fornecedor EV",
+    "lat": -23.54345,
+    "lon": -46.63512,
+    "rating": 4.1
+  },
+  {
+    "nome": "Eletro Serviços Pinheiros",
+    "uf": "SP",
+    "tipo": "Eletricista",
+    "lat": -23.57514,
+    "lon": -46.69398,
+    "rating": 3.9
+  },
+  {
+    "nome": "GreenWallbox SP",
+    "uf": "SP",
+    "tipo": "Fornecedor EV",
+    "lat": -23.5489,
+    "lon": -46.6343,
+    "rating": 4.7
+  },
+
+  {
+    "nome": "Sorocaba CarCharge",
+    "uf": "SP",
+    "tipo": "Instalador EV",
+    "lat": -23.501492,
+    "lon": -47.452644,
+    "rating": 4.4
+  },
+  {
+    "nome": "EletroSorocaba Serviços",
+    "uf": "SP",
+    "tipo": "Eletricista Industrial",
+    "lat": -23.4987,
+    "lon": -47.4531,
+    "rating": 4.0
+  },
+  {
+    "nome": "Votorantim Energia & Instalação",
+    "uf": "SP",
+    "tipo": "Instalador",
+    "lat": -23.5286,
+    "lon": -47.4014,
+    "rating": 3.8
+  },
+  {
+    "nome": "Itu EV Solutions",
+    "uf": "SP",
+    "tipo": "Instalador EV",
+    "lat": -23.2646,
+    "lon": -47.2999,
+    "rating": 4.5
+  },
+  {
+    "nome": "Indaiatuba Engenharia Elétrica",
+    "uf": "SP",
+    "tipo": "Engenharia Elétrica",
+    "lat": -23.0887,
+    "lon": -47.2113,
+    "rating": 4.2
+  },
+  {
+    "nome": "Sorocaba SmartCharge Instalações",
+    "uf": "SP",
+    "tipo": "Instalador EV",
+    "lat": -23.4970,
+    "lon": -47.4560,
+    "rating": 4.6
+  },
+  {
+    "nome": "Zona Oeste Engenharia Elétrica Sorocaba",
+    "uf": "SP",
+    "tipo": "Engenharia Elétrica",
+    "lat": -23.5150,
+    "lon": -47.4700,
+    "rating": 4.1
+  },
+  {
+    "nome": "Região Sul Eletricistas Industriais",
+    "uf": "SP",
+    "tipo": "Eletricista Industrial",
+    "lat": -23.5250,
+    "lon": -47.4220,
+    "rating": 3.8
+  },
+  {
+    "nome": "Minas Volt Serviços",
+    "uf": "MG",
+    "tipo": "Fornecedor EV",
+    "lat": -19.92083,
+    "lon": -43.93778,
+    "rating": 4.0
+  },
+  {
+    "nome": "Carregador Central BH",
+    "uf": "MG",
+    "tipo": "Instalador EV",
+    "lat": -19.935138,
+    "lon": -43.937796,
+    "rating": 3.7
+  },
+  {
+    "nome": "Energia Nordeste Recife",
+    "uf": "PE",
+    "tipo": "Fornecedor",
+    "lat": -8.047562,
+    "lon": -34.877,
+    "rating": 3.9
+  },
+  {
+    "nome": "EcoCharge Salvador",
+    "uf": "BA",
+    "tipo": "Fornecedor EV",
+    "lat": -12.977749,
+    "lon": -38.50163,
+    "rating": 4.1
+  },
+  {
+    "nome": "Fortaleza Eletro & Projetos",
+    "uf": "CE",
+    "tipo": "Engenharia Elétrica",
+    "lat": -3.71722,
+    "lon": -38.54337,
+    "rating": 3.6
+  },
+
+  {
+    "nome": "Amazonas Energia Pará",
+    "uf": "PA",
+    "tipo": "Fornecedor",
+    "lat": -1.45583,
+    "lon": -48.50442,
+    "rating": 3.5
+  },
+  {
+    "nome": "Curitiba EV Integrado",
+    "uf": "PR",
+    "tipo": "Instalador EV",
+    "lat": -25.429695,
+    "lon": -49.271187,
+    "rating": 4.8
+  },
+  {
+    "nome": "Porto Alegre Engenharia Industrial",
+    "uf": "RS",
+    "tipo": "Eletricista Industrial",
+    "lat": -30.027704,
+    "lon": -51.228734,
+    "rating": 4.3
+  },
+  {
+    "nome": "Florianópolis Energia & SmartCharge",
+    "uf": "SC",
+    "tipo": "Fornecedor EV",
+    "lat": -27.595377,
+    "lon": -48.548049,
+    "rating": 4.0
+  }
+]

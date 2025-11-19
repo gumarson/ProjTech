@@ -7,9 +7,10 @@ interface ButtonProps {
   label: string;
   route?: string; // Tornando o `route` opcional
   onClick?: () => void; // Adicionando a prop `onClick`
+  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, route, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ label, route, onClick, disabled }) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -21,13 +22,15 @@ const Button: React.FC<ButtonProps> = ({ label, route, onClick }) => {
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-full shadow-md"
-    >
-      {label}
-    </button>
-  );
+  <button
+    onClick={handleClick}
+    className="bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-8 rounded-lg 
+    transition-all duration-300 ease-in-out transform hover:scale-105 
+    shadow-lg hover:shadow-xl"
+  >
+    {label}
+  </button>
+);
 };
 
 export default Button;

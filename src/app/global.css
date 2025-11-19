@@ -2,7 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+
+  font-size: 18px;
+}
+
 /* Ajustando o fundo do body */
 body {
-  @apply bg-green-900 text-gray-100; /* Usando as classes do Tailwind */
+  @apply bg-blue-900 text-gray-100; /* Usando as classes do Tailwind */
+}
+
+/* Força as legendas do gráfico a ficarem em coluna e centralizadas */
+.apexcharts-legend {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.375rem; /* espaço entre itens da legenda */
+}
+
+/* garante que o wrapper do chart não exceda e force alinhamento */
+.chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.apex-chart-container .apexcharts-legend {
+  /* Usa flexbox para controlar a direção dos itens da legenda */
+  display: flex;
+  flex-direction: column;
+  
+  /* Centraliza os itens empilhados */
+  align-items: center; 
+}
+
+/*
+  Alvo de cada item individual da legenda (marcador de cor + texto)
+*/
+.apex-chart-container .apexcharts-legend-series {
+  /* Remove a margem lateral padrão, que é usada para layout horizontal */
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  /* Adiciona um pequeno espaço entre os itens empilhados verticalmente */
+  margin-bottom: 5px;
 }
