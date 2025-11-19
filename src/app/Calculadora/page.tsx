@@ -1,6 +1,6 @@
-"use client";
+"use client"; 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Button from "@/components/Buttons/button";
 import TechAba from "@/components/Tabs/TechTab";
 import Modal from "@/components/Modal/modal";
@@ -18,7 +18,7 @@ import { ResultsCarousel } from '@/components/ImageSlider/ResultsCarousel';
 const OPENCAGE_API_KEY = "9c11e6ea220c4bd6979ba6846e82ce81";
 
 type SolarCalcResult = {
-  cep: string; // Adicionado para rastrear o CEP de cada cálculo
+  cep: string;
   irradiance: number;
   sysKWp: number;
   panelCount: number;
@@ -45,11 +45,10 @@ type SolarCalcResult = {
   evChargingCostEstimate: number;
 };
 
-const CalculadoraPage: React.FC = () => {
+const CalculadoraContent: React.FC = () => {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("CidadesPotencial");
 
-  // Estados para os dois modais
   const [isInputModalOpen, setIsInputModalOpen] = useState(false);
   const [isResultModalOpen, setIsResultModalOpen] = useState(false);
 
@@ -219,13 +218,13 @@ const CalculadoraPage: React.FC = () => {
       <h1 className="text-4xl font-extrabold mb-8 text-center text-white">
 
       </h1>
-      <div className="flex justify-center space-x-4 mb-8">
+      {/* <div className="flex justify-center space-x-4 mb-8">
         <TechAba
           label="placeholder"
           isActive={activeTab === "CidadesPotencial"}
           onClick={() => handleTabChange("CidadesPotencial")}
         />
-      </div>
+      </div> */}
 
       {activeTab === "CidadesPotencial" && (
         <div>
@@ -370,5 +369,13 @@ const CalculadoraPage: React.FC = () => {
     </div>
   );
 }
+
+const CalculadoraPage: React.FC = () => {
+  return (
+    <Suspense fallback={<div>Carregando calculadora...</div>}>
+      <CalculadoraContent />
+    </Suspense>
+  );
+};
 
 export default CalculadoraPage;
