@@ -8,6 +8,7 @@ import { ResultCard } from './ResultCard';
 
 // O tipo SolarCalcResult deve ser o mesmo usado na CalculadoraPage
 type SolarCalcResult = {
+  cep: string;
   irradiance: number;
   sysKWp: number;
   panelCount: number;
@@ -54,7 +55,7 @@ export const ResultsCarousel: React.FC<ResultsCarouselProps> = ({ history }) => 
     <Slider {...settings}>
       {history.map((result, index) => (
         <div key={index}>
-          <ResultCard result={result} index={index} />
+          <ResultCard result={result} index={index} cep={''} />
         </div>
       ))}
     </Slider>

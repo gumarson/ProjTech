@@ -4,6 +4,7 @@ import React from "react";
 
 // O tipo SolarCalcResult deve ser importado ou definido aqui também
 type SolarCalcResult = {
+  cep: string;
   highlights: {
     possibleMonthlySavings: number;
     possibleGen: number;
@@ -14,6 +15,7 @@ type SolarCalcResult = {
 };
 
 interface ResultCardProps {
+  cep: string;
   result: SolarCalcResult;
   index: number;
 }
@@ -34,7 +36,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, index }) => {
           <li><strong>Área Necessária:</strong> <span className="font-semibold">{result.areaNeeded.toFixed(1)} m²</span></li>
         </ul>
       </div>
-      <p className="text-xs text-slate-400 mt-4 text-center">Este é um resumo de uma simulação anterior.</p>
+      <p className="text-xs text-slate-400 mt-4 text-center">Resultado para o CEP: <strong>{result.cep}</strong></p>
     </div>
   );
 };
